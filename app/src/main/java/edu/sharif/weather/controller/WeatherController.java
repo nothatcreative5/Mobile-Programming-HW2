@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Objects;
 
+import edu.sharif.weather.BuildConfig;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -27,7 +28,7 @@ public class WeatherController {
             urlBuilder.addQueryParameter("lon", lon);
             urlBuilder.addQueryParameter("exclude", "minutely,hourly,daily");
             urlBuilder.addQueryParameter("units", "metric");
-            urlBuilder.addQueryParameter("appid", "da791b2b3446f7ecaaf66562a11f07cd");
+            urlBuilder.addQueryParameter("appid", BuildConfig.OPEN_WEATHER_API_KEY);
             String url = urlBuilder.build().toString();
 
             Request request = new Request.Builder().url(url).build();
@@ -55,7 +56,7 @@ public class WeatherController {
     private HashMap<String, String> getGeoLocation(String locationName) {
         try {
             HttpUrl.Builder urlBuilder = HttpUrl.parse("https://api.mapbox.com/geocoding/v5/mapbox.places/" + locationName + ".json").newBuilder();
-            urlBuilder.addQueryParameter("access_token", "pk.eyJ1Ijoic2FkZWdoLW1hamlkaSIsImEiOiJjbDJrdjE3Y3EwZ3VxM2pvOGgxNWNmazhpIn0.TKYyVlsskmF5F5HFkwK5zg");
+            urlBuilder.addQueryParameter("access_token", BuildConfig.MAP_BOX_API_KEY);
             String url = urlBuilder.build().toString();
 
             Request request = new Request.Builder()
