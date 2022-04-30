@@ -1,10 +1,12 @@
 package edu.sharif.weather;
 
+import org.json.JSONObject;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 
 import edu.sharif.weather.controller.WeatherController;
@@ -19,8 +21,8 @@ public class ExampleUnitTest {
     public void weather_isCorrect() {
         WeatherController wc = new WeatherController();
         try {
-            String x = wc.getWeatherByGeoLocation("33.44", "-94.04");
-            System.out.println(x);
+            JSONObject x = wc.getWeatherByGeoLocation("33.44", "-94.04");
+            System.out.println(x.toString());
         } catch (IOException e) {
             System.out.println(1111);
             e.printStackTrace();

@@ -1,15 +1,12 @@
 package edu.sharif.weather.controller;
 
-import android.util.JsonReader;
-
-//import com.google.gson.JsonObject;
-
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Objects;
-
-import org.json.*;
 
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
@@ -23,11 +20,12 @@ public class WeatherController {
         client = new OkHttpClient();
     }
 
-    public String getWeatherByGeoLocation(String lat, String lon) throws IOException {
+    public JSONObject getWeatherByGeoLocation(String lat, String lon) throws IOException {
         HttpUrl.Builder urlBuilder = HttpUrl.parse("https://api.openweathermap.org/data/2.5/onecall").newBuilder();
         urlBuilder.addQueryParameter("lat", lat);
         urlBuilder.addQueryParameter("lon", lon);
-//        urlBuilder.addQueryParameter("exclude", "hourly");
+        urlBuilder.addQueryParameter("exclude", "minutely,hourly,daily");
+        urlBuilder.addQueryParameter("units", "metric");
         urlBuilder.addQueryParameter("appid", "da791b2b3446f7ecaaf66562a11f07cd");
         String url = urlBuilder.build().toString();
 
@@ -35,7 +33,24 @@ public class WeatherController {
                 .url(url)
                 .build();
         Response response = client.newCall(request).execute();
-        return response.body().string();
+        String body = Objects.requireNonNull(response.body()).string();
+        try {
+            JSONObject obj = new JSONObject(body);
+            JSONObject currentWeather = obj.getJSONObject("current");
+            JSONObject output = new JSONObject();
+            output.put("temp", currentWeather.getDouble("temp"));
+            output.put("feels_like", currentWeather.getDouble("feels_like"));
+            output.put("wind_speed", currentWeather.getDouble("wind_speed"));
+            output.put("humidity", currentWeather.getInt("humidity"));
+            JSONObject weather = new JSONObject();
+            weather.put("description", currentWeather.getJSONArray("weather").getJSONObject(0).getString("description"));
+            weather.put("icon", currentWeather.getJSONArray("weather").getJSONObject(0).getString("icon"));
+            output.put("weather", weather);
+            return output;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public  HashMap<String, String> getGeoLocation(String locationName) throws IOException {
