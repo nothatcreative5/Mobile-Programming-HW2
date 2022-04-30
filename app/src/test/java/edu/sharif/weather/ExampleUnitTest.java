@@ -2,8 +2,13 @@ package edu.sharif.weather;
 
 import static org.junit.Assert.assertEquals;
 
+import android.graphics.Bitmap;
+
 import org.json.JSONObject;
 import org.junit.Test;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import edu.sharif.weather.controller.WeatherController;
 
@@ -28,4 +33,15 @@ public class ExampleUnitTest {
         System.out.println(x.toString());
         assertEquals(4, 2 + 2);
     }
+
+//    @Test
+//    public void icon_isCorrect() {
+//        WeatherController wc = new WeatherController();
+//        try (FileOutputStream out = new FileOutputStream("test.png")) {
+//            Bitmap bmp = wc.getWeatherIcon("02d");
+//            bmp.compress(Bitmap.CompressFormat.PNG, 100, out);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }

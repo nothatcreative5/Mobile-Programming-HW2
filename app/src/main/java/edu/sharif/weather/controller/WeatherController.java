@@ -1,10 +1,14 @@
 package edu.sharif.weather.controller;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -82,6 +86,24 @@ public class WeatherController {
         try {
             return getWeatherByGeoLocation(location.get("lat"), location.get("lon"));
         } catch (NullPointerException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Bitmap getWeatherIcon(String iconCode) {
+        try {
+            HttpUrl.Builder urlBuilder = HttpUrl
+                    .parse("https://openweathermap.org/img/wn/" + iconCode + "@2x.png")
+                    .newBuilder();
+            String url = urlBuilder.build().toString();
+
+            Request request = new Request.Builder().url(url).build();
+            Response response = client.newCall(request).execute();
+            InputStream inputStream = response.body().byteStream();
+            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+            return bitmap;
+        } catch (IOException | NullPointerException e) {
             e.printStackTrace();
             return null;
         }
