@@ -8,6 +8,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +26,7 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 
 import com.vimalcvs.switchdn.DayNightSwitch;
+import com.vimalcvs.switchdn.DayNightSwitchAnimListener;
 import com.vimalcvs.switchdn.DayNightSwitchListener;
 
 import edu.sharif.weather.R;
@@ -46,15 +49,26 @@ public class SettingsFragment extends Fragment {
         sharedPreferences = this.getActivity().getSharedPreferences(Shared_KEY, MODE_PRIVATE);
 
         DayNightSwitch dayNightSwitch = (DayNightSwitch) view.findViewById(R.id.themeSwitch);
+        dayNightSwitch.setDuration(400);
         if (AppCompatDelegate.getDefaultNightMode() == MODE_NIGHT_YES)
             dayNightSwitch.setIsNight(true);
-        dayNightSwitch.setListener(new DayNightSwitchListener() {
+        dayNightSwitch.setAnimListener(new DayNightSwitchAnimListener() {
             @Override
-            public void onSwitch(boolean IsNight) {
-                if (IsNight) {
+            public void onAnimStart() {
+
+            }
+
+            @Override
+            public void onAnimEnd() {
+
+            }
+
+            @Override
+            public void onAnimValueChanged(float value) {
+                if (value == 1) {
                     saveDarkModeState(true);
                     AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES);
-                } else {
+                } else if (value == 0) {
                     saveDarkModeState(false);
                     AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO);
                 }
