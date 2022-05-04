@@ -3,6 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Term6/Mobile_Programming/HW2/app/src/main/res/drawable/ic_home.xml" value="0.1785" />
+        <entry key="..\:/Term6/Mobile_Programming/HW2/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Term6/Mobile_Programming/HW2/app/src/main/res/layout/fragment_settings.xml" value="0.1796875" />
+        <entry key="..\:/Term6/Mobile_Programming/HW2/app/src/main/res/menu/bottom_navigation.xml" value="0.1796875" />
         <entry key="..\:/Users/Arya/Desktop/MobileProgrammingHW2/app/src/main/res/layout/activity_main_page.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Arya/Desktop/MobileProgrammingHW2/app/src/main/res/layout/activity_main_page2.xml" value="0.19322916666666667" />
         <entry key="..\:/Users/Arya/Desktop/MobileProgrammingHW2/app/src/main/res/layout/activity_setting_page.xml" value="0.33" />
