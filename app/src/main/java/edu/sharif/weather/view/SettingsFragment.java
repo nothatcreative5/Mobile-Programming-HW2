@@ -42,7 +42,8 @@ public class SettingsFragment extends Fragment {
 
         sharedPreferences = this.getActivity().getSharedPreferences(Shared_KEY, MODE_PRIVATE);
 
-        SwitchCompat themeSwitch = (SwitchCompat) view.findViewById(R.id.themeSwitch);
+        Log.d("hich", view.findViewById(R.id.themeSwitch).getClass().toString());
+        SwitchCompat themeSwitch = view.findViewById(R.id.themeSwitch);
         if (AppCompatDelegate.getDefaultNightMode() == MODE_NIGHT_YES) {
             themeSwitch.setChecked(true);
             themeSwitch.setText("Dark Mode");
