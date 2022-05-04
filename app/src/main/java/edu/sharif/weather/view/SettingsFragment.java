@@ -4,6 +4,8 @@ import static android.content.Context.MODE_PRIVATE;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,11 +27,8 @@ import edu.sharif.weather.R;
 
 public class SettingsFragment extends Fragment {
 
-
-
-    private static String Shared_KEY = "edu.sharif.weather";
+    private static final String Shared_KEY = "edu.sharif.weather";
     private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor myEdit;
 
     @Nullable
     @Override
@@ -40,30 +39,36 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        sharedPreferences = this.getActivity().getSharedPreferences(Shared_KEY,getContext().MODE_PRIVATE);
-        myEdit = sharedPreferences.edit();
+
+        sharedPreferences = this.getActivity().getSharedPreferences(Shared_KEY, MODE_PRIVATE);
 
         SwitchCompat themeSwitch = (SwitchCompat) view.findViewById(R.id.themeSwitch);
-        if(AppCompatDelegate.getDefaultNightMode() == MODE_NIGHT_YES){
+        if (AppCompatDelegate.getDefaultNightMode() == MODE_NIGHT_YES) {
             themeSwitch.setChecked(true);
             themeSwitch.setText("Dark Mode");
         }
         themeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b){
-                    Toast toast = Toast.makeText(getContext(),"Dark",Toast.LENGTH_SHORT);
+                if (b) {
+                    Toast toast = Toast.makeText(getContext(), "Dark", Toast.LENGTH_SHORT);
                     toast.show();
+                    saveDarkModeState(true);
                     AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES);
-                }else{
-                    Toast toast = Toast.makeText(getContext(),"Light",Toast.LENGTH_SHORT);
+                } else {
+                    Toast toast = Toast.makeText(getContext(), "Light", Toast.LENGTH_SHORT);
                     toast.show();
+                    saveDarkModeState(false);
                     AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO);
                 }
-                myEdit.putBoolean("Setting",true);
-                myEdit.putBoolean("Change",true);
-                myEdit.commit();
             }
         });
+    }
+
+    private void saveDarkModeState(boolean state) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("DarkMode", state);
+        editor.putBoolean("DarkModeJustChanged", true);
+        editor.apply();
     }
 }
