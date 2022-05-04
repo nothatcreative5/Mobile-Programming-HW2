@@ -48,5 +48,4 @@ public class MainActivity extends AppCompatActivity {
         }
         sharedPreferences.edit().putBoolean("DarkModeJustChanged", false).apply();
     }
-
 }
