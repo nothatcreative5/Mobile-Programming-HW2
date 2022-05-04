@@ -23,6 +23,9 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 
+import com.vimalcvs.switchdn.DayNightSwitch;
+import com.vimalcvs.switchdn.DayNightSwitchListener;
+
 import edu.sharif.weather.R;
 
 public class SettingsFragment extends Fragment {
@@ -42,23 +45,16 @@ public class SettingsFragment extends Fragment {
 
         sharedPreferences = this.getActivity().getSharedPreferences(Shared_KEY, MODE_PRIVATE);
 
-        Log.d("hich", view.findViewById(R.id.themeSwitch).getClass().toString());
-        SwitchCompat themeSwitch = view.findViewById(R.id.themeSwitch);
-        if (AppCompatDelegate.getDefaultNightMode() == MODE_NIGHT_YES) {
-            themeSwitch.setChecked(true);
-            themeSwitch.setText("Dark Mode");
-        }
-        themeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        DayNightSwitch dayNightSwitch = (DayNightSwitch) view.findViewById(R.id.themeSwitch);
+        if (AppCompatDelegate.getDefaultNightMode() == MODE_NIGHT_YES)
+            dayNightSwitch.setIsNight(true);
+        dayNightSwitch.setListener(new DayNightSwitchListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b) {
-                    Toast toast = Toast.makeText(getContext(), "Dark", Toast.LENGTH_SHORT);
-                    toast.show();
+            public void onSwitch(boolean IsNight) {
+                if (IsNight) {
                     saveDarkModeState(true);
                     AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES);
                 } else {
-                    Toast toast = Toast.makeText(getContext(), "Light", Toast.LENGTH_SHORT);
-                    toast.show();
                     saveDarkModeState(false);
                     AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO);
                 }
