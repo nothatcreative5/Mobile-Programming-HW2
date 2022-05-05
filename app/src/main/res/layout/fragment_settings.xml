@@ -6,8 +6,8 @@
 
     <com.vimalcvs.switchdn.DayNightSwitch
         android:id="@+id/themeSwitch"
-        android:layout_width="220dp"
-        android:layout_height="120dp"
+        android:layout_width="150dp"
+        android:layout_height="80dp"
         android:text="Light Mode"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

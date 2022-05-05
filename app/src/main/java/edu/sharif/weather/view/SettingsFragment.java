@@ -23,6 +23,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.vimalcvs.switchdn.DayNightSwitch;
@@ -47,9 +48,9 @@ public class SettingsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         sharedPreferences = this.getActivity().getSharedPreferences(Shared_KEY, MODE_PRIVATE);
-
         DayNightSwitch dayNightSwitch = (DayNightSwitch) view.findViewById(R.id.themeSwitch);
-        dayNightSwitch.setDuration(400);
+
+        dayNightSwitch.setDuration(200);
         if (AppCompatDelegate.getDefaultNightMode() == MODE_NIGHT_YES)
             dayNightSwitch.setIsNight(true);
         dayNightSwitch.setAnimListener(new DayNightSwitchAnimListener() {
