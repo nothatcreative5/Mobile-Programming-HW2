@@ -44,5 +44,5 @@ dependencies {
     testImplementation 'org.json:json:20220320'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    implementation 'com.github.vimalcvs:Day-Night-Switch:1.0.3'
+    implementation 'com.github.MasterAlish:Android-DayNightSwitch:v0.1'
 }

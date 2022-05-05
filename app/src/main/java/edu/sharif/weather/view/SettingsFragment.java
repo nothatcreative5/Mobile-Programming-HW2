@@ -4,33 +4,22 @@ import static android.content.Context.MODE_PRIVATE;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
-import android.widget.Toast;
-
-import android.content.SharedPreferences;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.SwitchCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import com.vimalcvs.switchdn.DayNightSwitch;
-import com.vimalcvs.switchdn.DayNightSwitchAnimListener;
-import com.vimalcvs.switchdn.DayNightSwitchListener;
-
 import edu.sharif.weather.R;
+import ma.apps.widgets.daynightswitch.DayNightSwitch;
+import ma.apps.widgets.daynightswitch.OnSwitchListener;
 
 public class SettingsFragment extends Fragment {
 
@@ -49,29 +38,20 @@ public class SettingsFragment extends Fragment {
 
         sharedPreferences = this.getActivity().getSharedPreferences(Shared_KEY, MODE_PRIVATE);
         DayNightSwitch dayNightSwitch = (DayNightSwitch) view.findViewById(R.id.themeSwitch);
+        ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
 
-        dayNightSwitch.setDuration(200);
-        if (AppCompatDelegate.getDefaultNightMode() == MODE_NIGHT_YES)
-            dayNightSwitch.setIsNight(true);
-        dayNightSwitch.setAnimListener(new DayNightSwitchAnimListener() {
+        boolean isNight = AppCompatDelegate.getDefaultNightMode() == MODE_NIGHT_YES;
+        imageView.setBackgroundResource(isNight ? R.drawable.ic_moon : R.drawable.ic_sun);
+        dayNightSwitch.setDayChecked(!isNight, false);
+        dayNightSwitch.setOnSwitchListener(new OnSwitchListener() {
             @Override
-            public void onAnimStart() {
-
-            }
-
-            @Override
-            public void onAnimEnd() {
-
-            }
-
-            @Override
-            public void onAnimValueChanged(float value) {
-                if (value == 1) {
-                    saveDarkModeState(true);
-                    AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES);
-                } else if (value == 0) {
+            public void onSwitch(@NonNull DayNightSwitch dayNightSwitch, boolean isDay) {
+                if (isDay) {
                     saveDarkModeState(false);
                     AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO);
+                } else {
+                    saveDarkModeState(true);
+                    AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES);
                 }
             }
         });
