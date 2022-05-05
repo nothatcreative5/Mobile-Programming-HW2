@@ -25,7 +25,7 @@ public class HomeFragment extends Fragment implements WeatherRecyclerAdapter.OnW
 
 
     private RecyclerView recyclerView;
-    private ArrayList<DailyWeather> mWeatherForcast;
+    private ArrayList<DailyWeather> mWeatherForecast;
     private WeatherRecyclerAdapter adapter;
 
     @Nullable
@@ -46,15 +46,15 @@ public class HomeFragment extends Fragment implements WeatherRecyclerAdapter.OnW
         recyclerView.setHasFixedSize(true);
         recyclerView.addOnScrollListener(new CenterScrollListener());
 
-        mWeatherForcast = new ArrayList<>();
+        mWeatherForecast = new ArrayList<>();
 
-        mWeatherForcast.add(new DailyWeather(1,1,1,1));
-        mWeatherForcast.add(new DailyWeather(2,2,2,2));
-        mWeatherForcast.add(new DailyWeather(1,1,1,1));
-        mWeatherForcast.add(new DailyWeather(2,2,2,2));
+        mWeatherForecast.add(new DailyWeather(1,1,1,1));
+        mWeatherForecast.add(new DailyWeather(2,2,2,2));
+        mWeatherForecast.add(new DailyWeather(1,1,1,1));
+        mWeatherForecast.add(new DailyWeather(2,2,2,2));
 
 
-        adapter = new WeatherRecyclerAdapter(mWeatherForcast,this);
+        adapter = new WeatherRecyclerAdapter(mWeatherForecast,this);
         recyclerView.setAdapter(adapter);
     }
 
