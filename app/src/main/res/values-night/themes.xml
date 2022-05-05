@@ -3,14 +3,14 @@
     <style name="Theme.Weather" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">#FF80AB</item>
-        <item name="colorPrimaryVariant">#FF8A80</item>
+        <item name="colorPrimaryVariant">#FF4081</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">#FF80AB</item>
-        <item name="colorSecondaryVariant">#FF8A80</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorSecondaryVariant">#FF4081</item>
+        <item name="colorOnSecondary">#212121</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor" tools:targetApi="l">#121212</item>
         <!-- Customize your theme here. -->
     </style>
 </resources>
