@@ -8,7 +8,7 @@ import androidx.loader.content.AsyncTaskLoader;
 
 import java.util.List;
 
-public class WeatherTaskLoader extends AsyncTaskLoader<List<Sadegh>> {
+public class WeatherTaskLoader extends AsyncTaskLoader<List<DailyWeather>> {
 
     public WeatherTaskLoader(@NonNull Context context) {
         super(context);
@@ -16,7 +16,7 @@ public class WeatherTaskLoader extends AsyncTaskLoader<List<Sadegh>> {
 
     @Nullable
     @Override
-    public List<Sadegh> loadInBackground() {
+    public List<DailyWeather> loadInBackground() {
         return null;
     }
 }
