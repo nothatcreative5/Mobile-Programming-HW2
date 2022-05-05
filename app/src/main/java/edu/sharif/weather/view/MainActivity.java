@@ -21,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
     private static final String Shared_KEY = "edu.sharif.weather";
     private SharedPreferences sharedPreferences;
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
