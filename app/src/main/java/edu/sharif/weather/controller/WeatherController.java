@@ -2,6 +2,7 @@ package edu.sharif.weather.controller;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -66,9 +67,10 @@ public class WeatherController {
             Request request = new Request.Builder()
                     .url(url)
                     .build();
+
+            //todo(sadegh)
             Response response = client.newCall(request).execute();
             String body = Objects.requireNonNull(response.body()).string();
-
             JSONObject obj = new JSONObject(body);
             JSONArray geoLocArr = obj.getJSONArray("features").getJSONObject(0).getJSONArray("center");
             HashMap<String, String> geoLoc = new HashMap<>();

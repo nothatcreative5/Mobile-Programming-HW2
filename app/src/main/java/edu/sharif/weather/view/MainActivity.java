@@ -10,8 +10,11 @@ import androidx.fragment.app.Fragment;
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import org.json.JSONObject;
 
 import edu.sharif.weather.R;
 import edu.sharif.weather.controller.WeatherController;
@@ -20,6 +23,9 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String Shared_KEY = "edu.sharif.weather";
     private SharedPreferences sharedPreferences;
+
+    WeatherController wc = new WeatherController();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +36,16 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
         WeatherController wc = new WeatherController();
+
+        new Thread(
+                () -> {
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    Log.d("amirmahdi","pp");
+                }).start();
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
             Fragment selectedFragment = new HomeFragment();
