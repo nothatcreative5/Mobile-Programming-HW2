@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,8 +34,6 @@ public class MainActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences(Shared_KEY, MODE_PRIVATE);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-
-        WeatherController wc = new WeatherController();
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
             Fragment selectedFragment = new HomeFragment();
