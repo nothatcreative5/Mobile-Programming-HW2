@@ -3,18 +3,25 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Term6/Mobile_Programming/HW2/app/src/main/res/drawable-v23/ic_search_button.xml" value="0.1615" />
+        <entry key="..\:/Term6/Mobile_Programming/HW2/app/src/main/res/drawable/ic_bg_dark_mode.xml" value="0.1" />
         <entry key="..\:/Term6/Mobile_Programming/HW2/app/src/main/res/drawable/ic_home.xml" value="0.1785" />
+        <entry key="..\:/Term6/Mobile_Programming/HW2/app/src/main/res/drawable/ic_map_search_svgrepo_com.xml" value="0.1615" />
+        <entry key="..\:/Term6/Mobile_Programming/HW2/app/src/main/res/drawable/ic_search_button.xml" value="0.1615" />
+        <entry key="..\:/Term6/Mobile_Programming/HW2/app/src/main/res/drawable/ic_settings.xml" value="0.1" />
+        <entry key="..\:/Term6/Mobile_Programming/HW2/app/src/main/res/drawable/light_mode_gradient.xml" value="0.1105" />
         <entry key="..\:/Term6/Mobile_Programming/HW2/app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="..\:/Term6/Mobile_Programming/HW2/app/src/main/res/layout/fragment_settings.xml" value="0.22" />
+        <entry key="..\:/Term6/Mobile_Programming/HW2/app/src/main/res/layout/fragment_home.xml" value="0.22" />
+        <entry key="..\:/Term6/Mobile_Programming/HW2/app/src/main/res/layout/fragment_search.xml" value="0.1" />
+        <entry key="..\:/Term6/Mobile_Programming/HW2/app/src/main/res/layout/fragment_settings.xml" value="0.16666666666666666" />
         <entry key="..\:/Term6/Mobile_Programming/HW2/app/src/main/res/menu/bottom_navigation.xml" value="0.1796875" />
-        <entry key="..\:/Users/Arya/Desktop/MobileProgrammingHW2/app/src/main/res/layout/activity_main.xml" value="0.3009833262077811" />
+        <entry key="..\:/Term6/Mobile_Programming/HW2/app/src/main/res/menu/top_action_bar.xml" value="0.1" />
         <entry key="..\:/Users/Arya/Desktop/MobileProgrammingHW2/app/src/main/res/layout/activity_main_page.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Arya/Desktop/MobileProgrammingHW2/app/src/main/res/layout/activity_main_page2.xml" value="0.19322916666666667" />
         <entry key="..\:/Users/Arya/Desktop/MobileProgrammingHW2/app/src/main/res/layout/activity_setting_page.xml" value="0.33" />
         <entry key="..\:/Users/Arya/Desktop/MobileProgrammingHW2/app/src/main/res/layout/fragment_dashboard.xml" value="0.19322916666666667" />
-        <entry key="..\:/Users/Arya/Desktop/MobileProgrammingHW2/app/src/main/res/layout/fragment_home.xml" value="0.25" />
+        <entry key="..\:/Users/Arya/Desktop/MobileProgrammingHW2/app/src/main/res/layout/fragment_home.xml" value="0.19322916666666667" />
         <entry key="..\:/Users/Arya/Desktop/MobileProgrammingHW2/app/src/main/res/layout/fragment_notifications.xml" value="0.19322916666666667" />
-        <entry key="..\:/Users/Arya/Desktop/MobileProgrammingHW2/app/src/main/res/layout/weather_list.xml" value="0.4347450302506482" />
       </map>
     </option>
   </component>
