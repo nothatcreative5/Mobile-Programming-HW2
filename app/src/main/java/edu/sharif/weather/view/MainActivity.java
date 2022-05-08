@@ -19,6 +19,8 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import org.json.JSONObject;
+
 import edu.sharif.weather.R;
 import edu.sharif.weather.controller.WeatherController;
 
@@ -26,6 +28,9 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String Shared_KEY = "edu.sharif.weather";
     private SharedPreferences sharedPreferences;
+
+    WeatherController wc = new WeatherController();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

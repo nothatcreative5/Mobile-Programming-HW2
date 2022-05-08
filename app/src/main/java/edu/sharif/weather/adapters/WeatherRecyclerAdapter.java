@@ -19,17 +19,17 @@ import java.util.ArrayList;
 
 public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecyclerAdapter.ViewHolder> {
 
-    private ArrayList<DailyWeather> weatherForcast;
+    private ArrayList<DailyWeather> weatherForecast;
     private OnWeatherListener mOnWeatherListener;
 
 
     public WeatherRecyclerAdapter(ArrayList<DailyWeather> weatherForcast, OnWeatherListener onWeatherListener) {
-        this.weatherForcast = weatherForcast;
+        this.weatherForecast = weatherForcast;
         this.mOnWeatherListener = onWeatherListener;
     }
 
     public void changeDataSet(ArrayList<DailyWeather> weatherForcast) {
-        this.weatherForcast = weatherForcast;
+        this.weatherForecast = weatherForcast;
     }
 
     @NonNull
@@ -51,7 +51,7 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
 
     @Override
     public int getItemCount() {
-        return weatherForcast.size();
+        return weatherForecast.size();
     }
 
 
