@@ -72,8 +72,8 @@ public class MainActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.location_search) {
             View view = findViewById(R.id.location_search);
             PopupMenu popMenu = new PopupMenu(this, view);
-            popMenu.getMenu().add(1, 1, 1, "Search by city name");
-            popMenu.getMenu().add(1, 2, 2, "Search by city coordinates");
+            popMenu.getMenu().add(1, 1, 1, "Search city by name");
+            popMenu.getMenu().add(1, 2, 2, "Search city by coordinates");
             popMenu.show();
             popMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
