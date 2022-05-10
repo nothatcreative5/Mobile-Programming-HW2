@@ -1,16 +1,20 @@
 package edu.sharif.weather.adapters;
 
 
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
-import java.util.Random;
 
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.transition.Hold;
+
 import edu.sharif.weather.R;
 import edu.sharif.weather.controller.DailyWeather;
 
@@ -42,11 +46,16 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
     @Override
     public void onBindViewHolder(@NonNull WeatherRecyclerAdapter.ViewHolder holder, int position) {
 
-        Random rand = new Random();
-        int n = rand.nextInt(50);
+        holder.parentLayout.setBackgroundColor(0xFF42ecf5);
 
-        holder.text1.setText(Integer.toString(n));
-        holder.text2.setText(Integer.toString(n + 2));
+        holder.cityName.setText("Tehran");
+        holder.cityName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
+
+        holder.temperature.setText("20" + "\u00B0");
+        holder.temperature.setTextSize(TypedValue.COMPLEX_UNIT_SP, 23);
+
+        holder.feelsLike.setText("23" + " \u00B0");
+        holder.feelsLike.setTextSize(TypedValue.COMPLEX_UNIT_SP, 23);
     }
 
     @Override
@@ -58,15 +67,18 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        TextView text1;
-        TextView text2;
+        TextView temperature;
+        TextView feelsLike;
+        TextView cityName;
+        ImageView weatherIcon;
         ConstraintLayout parentLayout;
         OnWeatherListener onWeatherListener;
 
         public ViewHolder(@NonNull View itemView, OnWeatherListener onWeatherListener) {
             super(itemView);
-            text1 = itemView.findViewById(R.id.text1);
-            text2 = itemView.findViewById(R.id.text2);
+            temperature = itemView.findViewById(R.id.temperature);
+            feelsLike = itemView.findViewById(R.id.feelsLike);
+            cityName = itemView.findViewById(R.id.cityName);
             parentLayout = itemView.findViewById(R.id.parent_layout);
             this.onWeatherListener = onWeatherListener;
             itemView.setOnClickListener(this);

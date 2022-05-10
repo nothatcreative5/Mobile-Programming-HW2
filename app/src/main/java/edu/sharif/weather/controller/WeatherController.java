@@ -37,7 +37,9 @@ public class WeatherController {
             String url = urlBuilder.build().toString();
 
             Request request = new Request.Builder().url(url).build();
+            Log.d("Bug","This is where it gets stuck.");
             Response response = client.newCall(request).execute();
+            Log.d("Bug","This will not be logged.");
             String body = Objects.requireNonNull(response.body()).string();
 
             JSONObject obj = new JSONObject(body);

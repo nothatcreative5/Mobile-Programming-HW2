@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 
-import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,7 +18,6 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import org.json.JSONObject;
 
 import edu.sharif.weather.R;
 import edu.sharif.weather.controller.WeatherController;
@@ -32,13 +30,20 @@ public class MainActivity extends AppCompatActivity {
     WeatherController wc = new WeatherController();
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Log.d("Why","why");
         sharedPreferences = getSharedPreferences(Shared_KEY, MODE_PRIVATE);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+
+//        new Thread(() -> {
+//            JSONObject test = wc.getWeatherByGeoLocation("22","32");
+//            Log.d("Bug",test.toString());
+//        }).start();
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
             Fragment selectedFragment = new HomeFragment();
