@@ -8,6 +8,8 @@ import androidx.loader.content.AsyncTaskLoader;
 
 import java.util.List;
 
+import edu.sharif.weather.model.DailyWeather;
+
 public class WeatherTaskLoader extends AsyncTaskLoader<List<DailyWeather>> {
 
     public WeatherTaskLoader(@NonNull Context context) {

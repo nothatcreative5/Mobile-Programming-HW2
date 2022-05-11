@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 import edu.sharif.weather.R;
 import edu.sharif.weather.adapters.WeatherRecyclerAdapter;
-import edu.sharif.weather.controller.DailyWeather;
+import edu.sharif.weather.model.DailyWeather;
 
 public class HomeFragment extends Fragment implements WeatherRecyclerAdapter.OnWeatherListener {
 
@@ -48,10 +48,10 @@ public class HomeFragment extends Fragment implements WeatherRecyclerAdapter.OnW
 
         mWeatherForecast = new ArrayList<>();
 
-        mWeatherForecast.add(new DailyWeather(1,1,1,1));
-        mWeatherForecast.add(new DailyWeather(2,2,2,2));
-        mWeatherForecast.add(new DailyWeather(1,1,1,1));
-        mWeatherForecast.add(new DailyWeather(2,2,2,2));
+//        mWeatherForecast.add(new DailyWeather(1,1,1,1));
+//        mWeatherForecast.add(new DailyWeather(2,2,2,2));
+//        mWeatherForecast.add(new DailyWeather(1,1,1,1));
+//        mWeatherForecast.add(new DailyWeather(2,2,2,2));
 
 
         adapter = new WeatherRecyclerAdapter(mWeatherForecast,this);

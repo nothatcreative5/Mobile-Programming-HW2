@@ -9,8 +9,10 @@ import org.junit.Test;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import edu.sharif.weather.controller.WeatherController;
+import edu.sharif.weather.model.DailyWeather;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -21,16 +23,26 @@ public class ExampleUnitTest {
     @Test
     public void weather_isCorrect() {
         WeatherController wc = new WeatherController();
-        JSONObject x = wc.getWeatherByGeoLocation("33.44", "-94.04");
-        System.out.println(x.toString());
+        ArrayList<DailyWeather> x = wc.getWeatherByGeoLocation("33.44", "-94.04");
         assertEquals(4, 2 + 2);
     }
 
     @Test
     public void location_isCorrect() {
         WeatherController wc = new WeatherController();
-        JSONObject x = wc.getWeatherByLocationName("Tehran");
-        System.out.println(x.toString());
+        ArrayList<DailyWeather> x = wc.getWeatherByLocationName("Tehran");
+        int i = 1;
+        for (DailyWeather weather: x) {
+            System.out.println("Day " + i);
+            System.out.println("temp: " + weather.getTemp());
+            System.out.println("feels_like: " + weather.getFeelsLike());
+            System.out.println("wind_speed: " + weather.getWindSpeed());
+            System.out.println("humidity: " + weather.getHumidity());
+            System.out.println("description: " + weather.getDescription());
+            System.out.println("icon: " + weather.getIcon());
+            i++;
+            System.out.println("=====================================================");
+        }
         assertEquals(4, 2 + 2);
     }
 

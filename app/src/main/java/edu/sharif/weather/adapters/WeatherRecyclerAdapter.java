@@ -13,10 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.transition.Hold;
-
 import edu.sharif.weather.R;
-import edu.sharif.weather.controller.DailyWeather;
+import edu.sharif.weather.model.DailyWeather;
 
 
 import java.util.ArrayList;

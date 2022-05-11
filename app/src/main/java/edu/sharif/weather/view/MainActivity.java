@@ -42,6 +42,7 @@ import org.json.JSONObject;
 import edu.sharif.weather.R;
 import edu.sharif.weather.controller.WeatherController;
 import edu.sharif.weather.model.CitySearchModel;
+import edu.sharif.weather.model.DailyWeather;
 import ir.mirrajabi.searchdialog.SimpleSearchDialogCompat;
 import ir.mirrajabi.searchdialog.core.SearchResultListener;
 
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
         new Thread(() -> {
-            JSONObject test = wc.getWeatherByGeoLocation("22","32");
+            ArrayList<DailyWeather> test = wc.getWeatherByGeoLocation("22","32");
             Log.d("Bug",test.toString());
         }).start();
 
