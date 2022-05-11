@@ -126,14 +126,9 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<CitySearchModel> createSampleData(){
         ArrayList<CitySearchModel> items = new ArrayList<>();
-        for (int i = 0; i <= 10000; i++)
-            items.add(new CitySearchModel(String.valueOf(i)));
-        items.add(new CitySearchModel("Tehran"));
-        items.add(new CitySearchModel("Karaj"));
-        items.add(new CitySearchModel("Shiraz"));
-        items.add(new CitySearchModel("Yazd"));
-        items.add(new CitySearchModel("Kerman"));
-        items.add(new CitySearchModel("Tabriz"));
+//        String[] cityNames = getResources().getStringArray(R.array.cityNames);
+//        for (String cityName: cityNames)
+//            items.add(new CitySearchModel(cityName));
         return items;
     }
 
