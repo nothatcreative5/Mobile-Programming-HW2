@@ -1,5 +1,6 @@
 package edu.sharif.weather.view;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 
 import edu.sharif.weather.R;
 import edu.sharif.weather.adapters.WeatherRecyclerAdapter;
+import edu.sharif.weather.controller.WeatherController;
 import edu.sharif.weather.model.DailyWeather;
 
 public class HomeFragment extends Fragment implements WeatherRecyclerAdapter.OnWeatherListener {
@@ -26,6 +28,7 @@ public class HomeFragment extends Fragment implements WeatherRecyclerAdapter.OnW
 
     private RecyclerView recyclerView;
     private ArrayList<DailyWeather> mWeatherForecast;
+    private WeatherController wc;
     private WeatherRecyclerAdapter adapter;
 
     @Nullable
@@ -39,6 +42,8 @@ public class HomeFragment extends Fragment implements WeatherRecyclerAdapter.OnW
 
         final CarouselLayoutManager layoutManager = new CarouselLayoutManager(CarouselLayoutManager.HORIZONTAL,false);
         layoutManager.setPostLayoutListener(new CarouselZoomPostLayoutListener());
+
+        wc = new WeatherController();
 
 
         recyclerView = view.findViewById(R.id.weatherRecycler);
@@ -56,6 +61,43 @@ public class HomeFragment extends Fragment implements WeatherRecyclerAdapter.OnW
 
         adapter = new WeatherRecyclerAdapter(mWeatherForecast,this);
         recyclerView.setAdapter(adapter);
+        recyclerView.setVisibility(View.INVISIBLE);
+    }
+
+    public void getWeeklyForecastByCityName(String cityName) {
+
+        ProgressDialog dialog = ProgressDialog.show(getActivity(), "",
+                "Loading. Please wait...", true);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mWeatherForecast = wc.getWeatherByLocationName(cityName);
+                if(mWeatherForecast == null)
+                    onFailure(cityName);
+                else
+                    onSuccess(cityName,dialog);
+            }
+        }).start();
+    }
+
+    public void onSuccess(String cityName, ProgressDialog dialog) {
+
+        for(DailyWeather dw: mWeatherForecast){
+            dw.setCityName(cityName);
+        }
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                dialog.dismiss();
+                adapter.changeDataSet(mWeatherForecast);
+                adapter.notifyDataSetChanged();
+                recyclerView.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    public void onFailure(String cityName) {
+
     }
 
     @Override

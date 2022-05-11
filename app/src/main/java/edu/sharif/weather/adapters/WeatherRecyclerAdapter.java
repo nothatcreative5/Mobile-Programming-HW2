@@ -46,14 +46,18 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
 
         holder.parentLayout.setBackgroundColor(0xFF42ecf5);
 
-        holder.cityName.setText("Tehran");
+        holder.cityName.setText(weatherForecast.get(position).getCityName());
         holder.cityName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
 
-        holder.temperature.setText("20" + "\u00B0");
+        holder.temperature.setText("Temperature : " + weatherForecast.get(position).getTemp() + "\u00B0");
         holder.temperature.setTextSize(TypedValue.COMPLEX_UNIT_SP, 23);
 
-        holder.feelsLike.setText("23" + " \u00B0");
+        holder.feelsLike.setText("Feels like : " + weatherForecast.get(position).getFeelsLike() + " \u00B0");
         holder.feelsLike.setTextSize(TypedValue.COMPLEX_UNIT_SP, 23);
+
+        holder.humidity.setText("Humidity : " + weatherForecast.get(position).getHumidity());
+        holder.humidity.setTextSize(TypedValue.COMPLEX_UNIT_SP, 23);
+
     }
 
     @Override
@@ -68,6 +72,7 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
         TextView temperature;
         TextView feelsLike;
         TextView cityName;
+        TextView humidity;
         ImageView weatherIcon;
         ConstraintLayout parentLayout;
         OnWeatherListener onWeatherListener;
@@ -76,6 +81,7 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
             super(itemView);
             temperature = itemView.findViewById(R.id.temperature);
             feelsLike = itemView.findViewById(R.id.feelsLike);
+            humidity = itemView.findViewById(R.id.humidity);
             cityName = itemView.findViewById(R.id.cityName);
             parentLayout = itemView.findViewById(R.id.parent_layout);
             this.onWeatherListener = onWeatherListener;

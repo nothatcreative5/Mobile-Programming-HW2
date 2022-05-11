@@ -158,6 +158,8 @@ public class MainActivity extends AppCompatActivity {
                 (SearchResultListener<CitySearchModel>) (dialog, item, position) -> {
                     String cityName = item.getTitle();
                     // TODO: API handling
+                    HomeFragment hf = (HomeFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+                    hf.getWeeklyForecastByCityName(cityName);
                     Toast.makeText(MainActivity.this, cityName,
                             Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
