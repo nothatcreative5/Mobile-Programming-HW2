@@ -5,6 +5,7 @@ import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
 
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
+import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -39,6 +40,10 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textview.MaterialTextView;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.LineNumberReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,19 +64,18 @@ public class MainActivity extends AppCompatActivity {
     WeatherController wc = new WeatherController();
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Log.d("Why","why");
+        Log.d("Why", "why");
         sharedPreferences = getSharedPreferences(Shared_KEY, MODE_PRIVATE);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
         new Thread(() -> {
-            ArrayList<DailyWeather> test = wc.getWeatherByGeoLocation("22","32");
-            Log.d("Bug",test.toString());
+            ArrayList<DailyWeather> test = wc.getWeatherByGeoLocation("22", "32");
+            Log.d("Bug", test.toString());
         }).start();
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
@@ -124,11 +128,18 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private ArrayList<CitySearchModel> createSampleData(){
+    private ArrayList<CitySearchModel> createSampleData() {
         ArrayList<CitySearchModel> items = new ArrayList<>();
-//        String[] cityNames = getResources().getStringArray(R.array.cityNames);
-//        for (String cityName: cityNames)
-//            items.add(new CitySearchModel(cityName));
+        AssetManager assets = getAssets();
+        try {
+            InputStream in = assets.open("city_names.txt");
+            LineNumberReader lin = new LineNumberReader(new InputStreamReader(in));
+            String line;
+            while ((line = lin.readLine()) != null) {
+                items.add(new CitySearchModel(line));
+            }
+        } catch (IOException ignored) {
+        }
         return items;
     }
 
@@ -142,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
             if (!(child instanceof ViewGroup)) continue;
             ViewGroup group = (ViewGroup) child;
             final int childCount = group.getChildCount();
-            for (int i=0; i<childCount; i++) unvisited.add(group.getChildAt(i));
+            for (int i = 0; i < childCount; i++) unvisited.add(group.getChildAt(i));
         }
         return visited;
     }
@@ -203,12 +214,12 @@ public class MainActivity extends AppCompatActivity {
         layout.setLayoutParams(lp);
         int paddingDp = 20;
         float density = this.getResources().getDisplayMetrics().density;
-        int paddingPixel = (int)(paddingDp * density);
+        int paddingPixel = (int) (paddingDp * density);
         layout.setPadding(paddingPixel, 0, paddingPixel, paddingPixel);
         EditText longitudeEditText = new EditText(this);
         EditText latitudeEditText = new EditText(this);
-        longitudeEditText.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT,1.0f));
-        latitudeEditText.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT,1.0f));
+        longitudeEditText.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1.0f));
+        latitudeEditText.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1.0f));
         longitudeEditText.setHint("Longitude (X)");
         latitudeEditText.setHint("Latitude (Y)");
         longitudeEditText.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -228,7 +239,8 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), longitude + " " + latitude, Toast.LENGTH_LONG).show();
                     // TODO: API Handling
                 })
-                .setNegativeButton("Cancel", (dialogInterface, i) -> {});
+                .setNegativeButton("Cancel", (dialogInterface, i) -> {
+                });
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
         alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
