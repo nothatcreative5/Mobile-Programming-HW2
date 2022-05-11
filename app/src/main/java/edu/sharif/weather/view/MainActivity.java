@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
             View view = simpleSearchDialogCompat.getWindow().getDecorView();
             List<View> children = getAllChildrenBFS(view);
             for (View child : children) {
-                child.setBackgroundColor(Color.parseColor("#000000"));
+                child.setBackgroundColor(Color.parseColor("#121212"));
                 if (child instanceof AppCompatTextView) {
                     AppCompatTextView d = (AppCompatTextView) child;
                     d.setTextColor(Color.parseColor("#ffffff"));
