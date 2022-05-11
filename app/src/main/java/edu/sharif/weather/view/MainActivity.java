@@ -19,6 +19,8 @@ import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
+import org.json.JSONObject;
+
 import edu.sharif.weather.R;
 import edu.sharif.weather.controller.WeatherController;
 
@@ -40,10 +42,10 @@ public class MainActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(Shared_KEY, MODE_PRIVATE);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
-//        new Thread(() -> {
-//            JSONObject test = wc.getWeatherByGeoLocation("22","32");
-//            Log.d("Bug",test.toString());
-//        }).start();
+        new Thread(() -> {
+            JSONObject test = wc.getWeatherByGeoLocation("22","32");
+            Log.d("Bug",test.toString());
+        }).start();
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
             Fragment selectedFragment = new HomeFragment();

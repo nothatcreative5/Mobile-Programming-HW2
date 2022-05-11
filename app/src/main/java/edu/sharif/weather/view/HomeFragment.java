@@ -37,7 +37,7 @@ public class HomeFragment extends Fragment implements WeatherRecyclerAdapter.OnW
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        final CarouselLayoutManager layoutManager = new CarouselLayoutManager(CarouselLayoutManager.HORIZONTAL,true);
+        final CarouselLayoutManager layoutManager = new CarouselLayoutManager(CarouselLayoutManager.HORIZONTAL,false);
         layoutManager.setPostLayoutListener(new CarouselZoomPostLayoutListener());
 
 
