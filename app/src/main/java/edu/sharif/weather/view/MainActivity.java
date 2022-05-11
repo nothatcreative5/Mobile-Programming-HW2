@@ -7,13 +7,18 @@ import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.view.ViewTreeObserver;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -194,16 +199,77 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showSearchByCityCoordinatesDialog() {
-        new AlertDialog.Builder(MainActivity.this)
-                .setIcon(android.R.drawable.ic_menu_search)
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        LinearLayout layout = new LinearLayout(this);
+        layout.setLayoutParams(lp);
+        int paddingDp = 20;
+        float density = this.getResources().getDisplayMetrics().density;
+        int paddingPixel = (int)(paddingDp * density);
+        layout.setPadding(paddingPixel, 0, paddingPixel, paddingPixel);
+        EditText longitudeEditText = new EditText(this);
+        EditText latitudeEditText = new EditText(this);
+        longitudeEditText.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT,1.0f));
+        latitudeEditText.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT,1.0f));
+        longitudeEditText.setHint("Longitude (X)");
+        latitudeEditText.setHint("Latitude (Y)");
+        longitudeEditText.setGravity(Gravity.CENTER_HORIZONTAL);
+        latitudeEditText.setGravity(Gravity.CENTER_HORIZONTAL);
+        longitudeEditText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
+        latitudeEditText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
+        layout.addView(longitudeEditText);
+        layout.addView(latitudeEditText);
+        boolean[] searchButtonConditions = {false, false};
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this)
+                .setView(layout)
                 .setTitle("Search Weather Info")
                 .setMessage("Enter city coordinates")
                 .setPositiveButton("Search", (dialogInterface, i) -> {
-                    // TODO: API handling
+                    double longitude = Double.parseDouble(longitudeEditText.getText().toString());
+                    double latitude = Double.parseDouble(latitudeEditText.getText().toString());
+                    Toast.makeText(getApplicationContext(), longitude + " " + latitude, Toast.LENGTH_LONG).show();
+                    // TODO: API Handling
                 })
-                .setNegativeButton("Cancel", (dialogInterface, i) -> {
-                    Toast.makeText(getApplicationContext(),"Nothing Happened",Toast.LENGTH_LONG).show();
-                })
-                .show();
+                .setNegativeButton("Cancel", (dialogInterface, i) -> {});
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+        longitudeEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                searchButtonConditions[0] = !charSequence.toString().trim().equals("");
+                boolean enable = searchButtonConditions[0] && searchButtonConditions[1];
+                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(enable);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        latitudeEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                searchButtonConditions[1] = !charSequence.toString().trim().equals("");
+                boolean enable = searchButtonConditions[0] && searchButtonConditions[1];
+                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(enable);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
     }
 }
