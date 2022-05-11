@@ -6,6 +6,7 @@ public class DailyWeather {
     private final double feelsLike;
     private final double windSpeed;
     private final int humidity;
+    private String cityName;
     private final String description;
     private final String icon;
 
@@ -40,5 +41,13 @@ public class DailyWeather {
 
     public String getIcon() {
         return icon;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
     }
 }
