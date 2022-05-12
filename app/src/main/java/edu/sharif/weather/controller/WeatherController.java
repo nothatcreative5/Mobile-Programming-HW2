@@ -2,6 +2,7 @@ package edu.sharif.weather.controller;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -92,6 +93,34 @@ public class WeatherController {
         try {
             return getWeatherByGeoLocation(location.get("lat"), location.get("lon"));
         } catch (NullPointerException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public String getCityName(String lon, String lat) {
+        try {
+            HttpUrl.Builder urlBuilder = HttpUrl.parse("https://api.mapbox.com/geocoding/v5/mapbox.places/" + lon + "," + lat + ".json").newBuilder();
+            urlBuilder.addQueryParameter("access_token", BuildConfig.MAP_BOX_API_KEY);
+            urlBuilder.addQueryParameter("types", "place");
+            String url = urlBuilder.build().toString();
+
+            Request request = new Request.Builder()
+                    .url(url)
+                    .build();
+
+            //todo(sadegh)
+            Response response = client.newCall(request).execute();
+            String body = Objects.requireNonNull(response.body()).string();
+
+            Log.d("sadegh",body);
+
+
+            JSONObject obj = new JSONObject(body);
+            String cityName = obj.getJSONArray("features").getJSONObject(0).getString("text");
+
+            return cityName;
+        } catch (IOException | JSONException e) {
             e.printStackTrace();
             return null;
         }

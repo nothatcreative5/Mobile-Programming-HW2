@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -73,9 +74,27 @@ public class HomeFragment extends Fragment implements WeatherRecyclerAdapter.OnW
             public void run() {
                 mWeatherForecast = wc.getWeatherByLocationName(cityName);
                 if(mWeatherForecast == null)
-                    onFailure(cityName);
+                    onFailure(dialog);
                 else
                     onSuccess(cityName,dialog);
+            }
+        }).start();
+    }
+
+    public void getWeeklyForecastByCoordinates(String longitude, String latitude) {
+        ProgressDialog dialog = ProgressDialog.show(getActivity(), "",
+                "Loading. Please wait...", true);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mWeatherForecast = wc.getWeatherByGeoLocation(latitude,longitude);
+                String cityName = wc.getCityName(longitude,latitude);
+                if(cityName == null)
+                    cityName = "Karaj";
+                if(mWeatherForecast == null)
+                    onFailure(dialog);
+                else
+                    onSuccess(cityName, dialog);
             }
         }).start();
     }
@@ -92,12 +111,21 @@ public class HomeFragment extends Fragment implements WeatherRecyclerAdapter.OnW
                 adapter.changeDataSet(mWeatherForecast);
                 adapter.notifyDataSetChanged();
                 recyclerView.setVisibility(View.VISIBLE);
+                recyclerView.scrollToPosition(0);
             }
         });
     }
 
-    public void onFailure(String cityName) {
 
+    public void onFailure(ProgressDialog dialog) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                dialog.dismiss();
+                Toast.makeText(getActivity(), "Ridim seyed",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

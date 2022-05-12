@@ -46,6 +46,7 @@ public class ExampleUnitTest {
         assertEquals(4, 2 + 2);
     }
 
+
 //    @Test
 //    public void icon_isCorrect() {
 //        WeatherController wc = new WeatherController();

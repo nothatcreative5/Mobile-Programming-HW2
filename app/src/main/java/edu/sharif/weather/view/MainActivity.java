@@ -237,7 +237,10 @@ public class MainActivity extends AppCompatActivity {
                     double longitude = Double.parseDouble(longitudeEditText.getText().toString());
                     double latitude = Double.parseDouble(latitudeEditText.getText().toString());
                     Toast.makeText(getApplicationContext(), longitude + " " + latitude, Toast.LENGTH_LONG).show();
-                    // TODO: API Handling
+
+                    // TODO: API handling
+                    HomeFragment hf = (HomeFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+                    hf.getWeeklyForecastByCoordinates(Double.toString(longitude), Double.toString(latitude));
                 })
                 .setNegativeButton("Cancel", (dialogInterface, i) -> {
                 });
