@@ -110,15 +110,12 @@ public class WeatherController {
                     .build();
 
             //todo(sadegh)
+            Log.d("sadegh","kir");
             Response response = client.newCall(request).execute();
             String body = Objects.requireNonNull(response.body()).string();
-
             Log.d("sadegh",body);
-
-
             JSONObject obj = new JSONObject(body);
             String cityName = obj.getJSONArray("features").getJSONObject(0).getString("text");
-
             return cityName;
         } catch (IOException | JSONException e) {
             e.printStackTrace();
