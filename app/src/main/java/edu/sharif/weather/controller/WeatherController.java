@@ -32,9 +32,9 @@ public class WeatherController {
 
     public WeatherController(Application application) {
         int cacheSize = 10 * MB;
+        Log.d("KIIIIIIR", application.getCacheDir().toString());
         Cache cache = new Cache(new File(application.getCacheDir(),"weatherCache"), cacheSize);
         client = new OkHttpClient.Builder().cache(cache).build();
-//        client = new OkHttpClient.Builder().build();
     }
 
     public ArrayList<DailyWeather> getWeatherByGeoLocation(String lat, String lon) {
@@ -49,9 +49,15 @@ public class WeatherController {
 
             Request request = new Request.Builder()
                     .url(url)
-//                    .cacheControl(new CacheControl.Builder().maxAge(12, TimeUnit.HOURS).build())
+                    .cacheControl(
+                            new CacheControl.Builder()
+                                    .maxAge(10, TimeUnit.MINUTES)
+                                    .maxStale(12, TimeUnit.HOURS)
+                                    .build()
+                    )
                     .build();
             Response response = client.newCall(request).execute();
+            Log.d("CACHE SIZE", Long.toString(client.cache().size()));
             String body = Objects.requireNonNull(response.body()).string();
 
             JSONObject obj = new JSONObject(body);
@@ -83,13 +89,12 @@ public class WeatherController {
 
             Request request = new Request.Builder()
                     .url(url)
-//                    .cacheControl(
-//                            new CacheControl.Builder()
-//                                    .maxAge(10, TimeUnit.MINUTES)
-//                                    .maxStale(12, TimeUnit.HOURS)
-//                                    .onlyIfCached()
-//                                    .build()
-//                    )
+                    .cacheControl(
+                            new CacheControl.Builder()
+                                    .maxAge(10, TimeUnit.MINUTES)
+                                    .maxStale(12, TimeUnit.HOURS)
+                                    .build()
+                    )
                     .build();
 
             //todo(sadegh)
