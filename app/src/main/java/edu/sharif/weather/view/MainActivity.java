@@ -340,4 +340,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void showMoreInfo() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this)
+                .setTitle("More Info")
+                .setMessage("Wind speed is km/h")
+                .setPositiveButton("Close", (dialogInterface, i) -> {
+
+                });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
 }
