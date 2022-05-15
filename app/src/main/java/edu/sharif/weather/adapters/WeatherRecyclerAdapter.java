@@ -1,6 +1,7 @@
 package edu.sharif.weather.adapters;
 
 
+import android.annotation.SuppressLint;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,22 +42,18 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
         return new ViewHolder(view, mOnWeatherListener);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull WeatherRecyclerAdapter.ViewHolder holder, int position) {
-
-        // holder.parentLayout.setBackgroundColor(0xFF42ecf5);
 
         holder.cityName.setText(weatherForecast.get(position).getCityName());
         holder.cityName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
 
-        holder.temperature.setText("Temperature : " + weatherForecast.get(position).getTemp() + "\u00B0");
-        holder.temperature.setTextSize(TypedValue.COMPLEX_UNIT_SP, 23);
+        holder.temperature.setText(weatherForecast.get(position).getTemp() + "\u00B0");
 
-        holder.feelsLike.setText("Feels like : " + weatherForecast.get(position).getFeelsLike() + " \u00B0");
-        holder.feelsLike.setTextSize(TypedValue.COMPLEX_UNIT_SP, 23);
+        holder.feelsLike.setText(weatherForecast.get(position).getFeelsLike() + "\u00B0");
 
-        holder.humidity.setText("Humidity : " + weatherForecast.get(position).getHumidity());
-        holder.humidity.setTextSize(TypedValue.COMPLEX_UNIT_SP, 23);
+        holder.humidity.setText(weatherForecast.get(position).getHumidity() + "%");
 
     }
 
@@ -82,7 +79,7 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
             temperature = itemView.findViewById(R.id.temperature);
             feelsLike = itemView.findViewById(R.id.feelsLike);
             humidity = itemView.findViewById(R.id.humidity);
-            cityName = itemView.findViewById(R.id.cityName);
+            cityName = itemView.findViewById(R.id.timeEditText);
             parentLayout = itemView.findViewById(R.id.parent_layout);
             this.onWeatherListener = onWeatherListener;
             itemView.setOnClickListener(this);
@@ -98,6 +95,5 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
     public interface OnWeatherListener {
         void onWeatherClick(int position);
     }
-
 
 }
