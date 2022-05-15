@@ -105,6 +105,7 @@ public class WeatherController {
             Response response = client.newCall(request).execute();
             String body = Objects.requireNonNull(response.body()).string();
             JSONObject obj = new JSONObject(body);
+            Log.d("sadegh",body.toString());
             JSONArray geoLocArr = obj.getJSONArray("features").getJSONObject(0).getJSONArray("center");
             HashMap<String, String> geoLoc = new HashMap<>();
             geoLoc.put("lat", String.valueOf(geoLocArr.getDouble(1)));
@@ -136,15 +137,12 @@ public class WeatherController {
             Request request = new Request.Builder()
                     .url(url)
                     .build();
-
-            //todo(sadegh)
-            Log.d("sadegh","kir");
+            Log.d("sadegh","abkos");
             Response response = client.newCall(request).execute();
             String body = Objects.requireNonNull(response.body()).string();
             Log.d("sadegh",body);
             JSONObject obj = new JSONObject(body);
-            String cityName = obj.getJSONArray("features").getJSONObject(0).getString("text");
-            return cityName;
+            return obj.getJSONArray("features").getJSONObject(0).getString("text");
         } catch (IOException | JSONException e) {
             e.printStackTrace();
             return null;

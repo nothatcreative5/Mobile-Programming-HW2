@@ -4,6 +4,7 @@ package edu.sharif.weather.view;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.graphics.Color;
@@ -28,14 +29,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatTextView;
-import androidx.appcompat.widget.ContentFrameLayout;
-import androidx.appcompat.widget.FitWindowsLinearLayout;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textview.MaterialTextView;
@@ -46,6 +43,8 @@ import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.json.JSONObject;
 
@@ -60,6 +59,9 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String Shared_KEY = "edu.sharif.weather";
     private SharedPreferences sharedPreferences;
+    private static final long DELAY = 5000;
+    private Timer timer =  new Timer();
+
 
     WeatherController wc;
 
@@ -116,9 +118,9 @@ public class MainActivity extends AppCompatActivity {
             popMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
-                    if (item.getItemId() == 1) // TODO: Search by City Name
+                    if (item.getItemId() == 1)
                         showSearchByCityNameDialog();
-                    if (item.getItemId() == 2) // TODO: Search by City Coordinates
+                    if (item.getItemId() == 2)
                         showSearchByCityCoordinatesDialog();
                     return false;
                 }
@@ -162,8 +164,9 @@ public class MainActivity extends AppCompatActivity {
         SimpleSearchDialogCompat simpleSearchDialogCompat = new SimpleSearchDialogCompat(MainActivity.this,
                 "Choose City Name", "Enter City Name...", null, createSampleData(),
                 (SearchResultListener<CitySearchModel>) (dialog, item, position) -> {
+                    timer.cancel();
                     String cityName = item.getTitle();
-                    // TODO: API handling
+                    // API Handling
                     HomeFragment hf = (HomeFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
                     hf.getWeeklyForecastByCityName(cityName);
                     Toast.makeText(MainActivity.this, cityName,
@@ -171,6 +174,50 @@ public class MainActivity extends AppCompatActivity {
                     dialog.dismiss();
                 });
         simpleSearchDialogCompat.show();
+
+        EditText cityEdit = simpleSearchDialogCompat.getSearchBox();
+
+        cityEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                timer.cancel();
+                if(!cityEdit.getText().toString().isEmpty()){
+                    timer.cancel();
+                    timer = new Timer();
+                    timer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            simpleSearchDialogCompat.dismiss();
+                            String cityName = cityEdit.getText().toString();
+                            HomeFragment hf = (HomeFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+                            hf.getWeeklyForecastByCityName(cityName);
+                        }
+                    },DELAY);
+                }
+            }
+        });
+
+
+        simpleSearchDialogCompat.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                timer.cancel();
+            }
+        });
+
+
+
+
         // Handling dark mode for SimpleSearchDialogCompat library
         if (AppCompatDelegate.getDefaultNightMode() == MODE_NIGHT_YES) {
             View view = simpleSearchDialogCompat.getWindow().getDecorView();
@@ -236,17 +283,25 @@ public class MainActivity extends AppCompatActivity {
                 .setPositiveButton("Search", (dialogInterface, i) -> {
                     double longitude = Double.parseDouble(longitudeEditText.getText().toString());
                     double latitude = Double.parseDouble(latitudeEditText.getText().toString());
-                    Toast.makeText(getApplicationContext(), longitude + " " + latitude, Toast.LENGTH_LONG).show();
+                    timer.cancel();
 
-                    // TODO: API handling
+                    //API Handling
                     HomeFragment hf = (HomeFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
                     hf.getWeeklyForecastByCoordinates(Double.toString(longitude), Double.toString(latitude));
                 })
                 .setNegativeButton("Cancel", (dialogInterface, i) -> {
+                    timer.cancel();
                 });
+
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
         alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+        alertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                timer.cancel();
+            }
+        });
         longitudeEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -255,8 +310,22 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                timer.cancel();
                 searchButtonConditions[0] = !charSequence.toString().trim().equals("");
                 boolean enable = searchButtonConditions[0] && searchButtonConditions[1];
+                if(enable){
+                    timer = new Timer();
+                    timer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            alertDialog.dismiss();
+                            double longitude = Double.parseDouble(longitudeEditText.getText().toString());
+                            double latitude = Double.parseDouble(latitudeEditText.getText().toString());
+                            HomeFragment hf = (HomeFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+                            hf.getWeeklyForecastByCoordinates(Double.toString(longitude), Double.toString(latitude));
+                        }
+                    },DELAY);
+                }
                 alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(enable);
             }
 
@@ -273,8 +342,22 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                timer.cancel();
                 searchButtonConditions[1] = !charSequence.toString().trim().equals("");
                 boolean enable = searchButtonConditions[0] && searchButtonConditions[1];
+                if(enable){
+                    timer = new Timer();
+                    timer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            alertDialog.dismiss();
+                            double longitude = Double.parseDouble(longitudeEditText.getText().toString());
+                            double latitude = Double.parseDouble(latitudeEditText.getText().toString());
+                            HomeFragment hf = (HomeFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+                            hf.getWeeklyForecastByCoordinates(Double.toString(longitude), Double.toString(latitude));
+                        }
+                    },DELAY);
+                }
                 alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(enable);
             }
 

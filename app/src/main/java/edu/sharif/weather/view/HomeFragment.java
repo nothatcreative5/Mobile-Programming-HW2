@@ -2,6 +2,8 @@ package edu.sharif.weather.view;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,6 +34,7 @@ public class HomeFragment extends Fragment implements WeatherRecyclerAdapter.OnW
     private ArrayList<DailyWeather> mWeatherForecast;
     private WeatherController wc;
     private WeatherRecyclerAdapter adapter;
+    private ConnectivityManager cm;
 
     @Nullable
     @Override
@@ -51,6 +54,7 @@ public class HomeFragment extends Fragment implements WeatherRecyclerAdapter.OnW
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.addOnScrollListener(new CenterScrollListener());
+        cm = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 
         mWeatherForecast = new ArrayList<>();
 
@@ -62,33 +66,48 @@ public class HomeFragment extends Fragment implements WeatherRecyclerAdapter.OnW
 
     public void getWeeklyForecastByCityName(String cityName) {
 
-        ProgressDialog dialog = ProgressDialog.show(getActivity(), "Searching Weather Info", "Please wait...", true);
+        final ProgressDialog[] dialog = new ProgressDialog[1];
+
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                dialog[0] =  ProgressDialog.show(getActivity(), "Searching Weather Info", "Please wait...", true);
+            }
+        });
         new Thread(new Runnable() {
             @Override
             public void run() {
                 mWeatherForecast = wc.getWeatherByLocationName(cityName);
                 if (mWeatherForecast == null)
-                    onFailure(dialog);
+                    onFailure(dialog[0]);
                 else
-                    onSuccess(cityName, dialog);
+                    onSuccess(cityName, dialog[0]);
             }
         }).start();
     }
 
     public void getWeeklyForecastByCoordinates(String longitude, String latitude) {
-        ProgressDialog dialog = ProgressDialog.show(getActivity(), "",
-                "Loading. Please wait...", true);
+        final ProgressDialog[] dialog = new ProgressDialog[1];
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                dialog[0] = ProgressDialog.show(getActivity(), "",
+                        "Loading. Please wait...", true);
+            }
+        });
+        Log.d("sadegh","kireee khar");
         new Thread(new Runnable() {
             @Override
             public void run() {
-                mWeatherForecast = wc.getWeatherByGeoLocation(latitude, longitude);
                 String cityName = wc.getCityName(longitude, latitude);
-                if (cityName == null)
-                    cityName = "Karaj";
-                if (mWeatherForecast == null)
-                    onFailure(dialog);
-                else
-                    onSuccess(cityName, dialog);
+                mWeatherForecast = wc.getWeatherByGeoLocation(latitude, longitude);
+                if (cityName == null) {
+                    onFailure(dialog[0], "We couldn't find a city with these coordinates. Please try another location");
+                } else if (mWeatherForecast == null) {
+                    onFailure(dialog[0]);
+                } else {
+                    onSuccess(cityName, dialog[0]);
+                }
             }
         }).start();
     }
@@ -117,8 +136,24 @@ public class HomeFragment extends Fragment implements WeatherRecyclerAdapter.OnW
             @Override
             public void run() {
                 dialog.dismiss();
-                Toast.makeText(getActivity(), "Ridim seyed",
-                        Toast.LENGTH_SHORT).show();
+                if (cm.getActiveNetworkInfo() != null) {
+                    Toast.makeText(getActivity(), "A problem occurred. Please try again."
+                            , Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getActivity(), "You don't have an active internet Connection." +
+                            "Please try again later.", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+    public void onFailure(ProgressDialog dialog, String message) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(dialog != null)
+                    dialog.dismiss();
+                Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
             }
         });
     }
