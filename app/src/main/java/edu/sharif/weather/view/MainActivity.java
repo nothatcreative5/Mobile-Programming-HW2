@@ -67,7 +67,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        wc = new WeatherController(getApplication());
+        WeatherController.application = getApplication();
+        wc = WeatherController.getControllerInstance();
         Log.d("Why", "why");
         sharedPreferences = getSharedPreferences(Shared_KEY, MODE_PRIVATE);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);

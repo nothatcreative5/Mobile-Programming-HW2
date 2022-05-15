@@ -29,12 +29,17 @@ import okhttp3.Response;
 public class WeatherController {
     private final OkHttpClient client;
     public static final int MB = 1024 * 1024;
+    public static Application application;
+    private static final WeatherController instance = null;
 
-    public WeatherController(Application application) {
+    private WeatherController() {
         int cacheSize = 10 * MB;
-        Log.d("KIIIIIIR", application.getCacheDir().toString());
         Cache cache = new Cache(new File(application.getCacheDir(),"weatherCache"), cacheSize);
         client = new OkHttpClient.Builder().cache(cache).build();
+    }
+
+    public static WeatherController getControllerInstance() {
+        return (instance != null)? instance: new WeatherController();
     }
 
     public ArrayList<DailyWeather> getWeatherByGeoLocation(String lat, String lon) {
@@ -57,7 +62,6 @@ public class WeatherController {
                     )
                     .build();
             Response response = client.newCall(request).execute();
-            Log.d("CACHE SIZE", Long.toString(client.cache().size()));
             String body = Objects.requireNonNull(response.body()).string();
 
             JSONObject obj = new JSONObject(body);
