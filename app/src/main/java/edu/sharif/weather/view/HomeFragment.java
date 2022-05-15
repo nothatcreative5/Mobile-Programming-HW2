@@ -100,7 +100,7 @@ public class HomeFragment extends Fragment implements WeatherRecyclerAdapter.OnW
             String cityName = wc.getCityName(longitude, latitude);
             mWeatherForecast = wc.getWeatherByGeoLocation(latitude, longitude);
             if (cityName == null) {
-                onFailure(dialog[0], "We couldn't find a city with these coordinates. Please try another location");
+                onFailure(dialog[0], "We couldn't find a city with these coordinates. Please try another location.");
             } else if (mWeatherForecast == null) {
                 onFailure(dialog[0]);
             } else {
@@ -116,7 +116,8 @@ public class HomeFragment extends Fragment implements WeatherRecyclerAdapter.OnW
             dw.setCityName(cityName);
         }
         getActivity().runOnUiThread(() -> {
-            dialog.dismiss();
+            if (dialog != null)
+                dialog.dismiss();
             adapter.changeDataSet(mWeatherForecast);
             adapter.notifyDataSetChanged();
             recyclerView.setVisibility(View.VISIBLE);
