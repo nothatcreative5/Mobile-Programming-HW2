@@ -1,5 +1,6 @@
 package edu.sharif.weather.controller;
 
+import android.app.Application;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
@@ -8,14 +9,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 import edu.sharif.weather.BuildConfig;
 import edu.sharif.weather.model.DailyWeather;
+import okhttp3.Cache;
+import okhttp3.CacheControl;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -23,9 +28,13 @@ import okhttp3.Response;
 
 public class WeatherController {
     private final OkHttpClient client;
+    public static final int MB = 1024 * 1024;
 
-    public WeatherController() {
-        client = new OkHttpClient();
+    public WeatherController(Application application) {
+        int cacheSize = 10 * MB;
+        Cache cache = new Cache(new File(application.getCacheDir(),"weatherCache"), cacheSize);
+        client = new OkHttpClient.Builder().cache(cache).build();
+//        client = new OkHttpClient.Builder().build();
     }
 
     public ArrayList<DailyWeather> getWeatherByGeoLocation(String lat, String lon) {
@@ -38,7 +47,10 @@ public class WeatherController {
             urlBuilder.addQueryParameter("appid", BuildConfig.OPEN_WEATHER_API_KEY);
             String url = urlBuilder.build().toString();
 
-            Request request = new Request.Builder().url(url).build();
+            Request request = new Request.Builder()
+                    .url(url)
+//                    .cacheControl(new CacheControl.Builder().maxAge(12, TimeUnit.HOURS).build())
+                    .build();
             Response response = client.newCall(request).execute();
             String body = Objects.requireNonNull(response.body()).string();
 
@@ -71,6 +83,13 @@ public class WeatherController {
 
             Request request = new Request.Builder()
                     .url(url)
+//                    .cacheControl(
+//                            new CacheControl.Builder()
+//                                    .maxAge(10, TimeUnit.MINUTES)
+//                                    .maxStale(12, TimeUnit.HOURS)
+//                                    .onlyIfCached()
+//                                    .build()
+//                    )
                     .build();
 
             //todo(sadegh)
