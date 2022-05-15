@@ -2,7 +2,9 @@ package edu.sharif.weather.view;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +20,10 @@ import com.mig35.carousellayoutmanager.CarouselLayoutManager;
 import com.mig35.carousellayoutmanager.CarouselZoomPostLayoutListener;
 import com.mig35.carousellayoutmanager.CenterScrollListener;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import edu.sharif.weather.R;
@@ -67,6 +73,8 @@ public class HomeFragment extends Fragment implements WeatherRecyclerAdapter.OnW
             @Override
             public void run() {
                 mWeatherForecast = wc.getWeatherByLocationName(cityName);
+                Log.d("Icon", mWeatherForecast.get(0).getDescription());
+                Log.d("Icon", mWeatherForecast.get(0).getIcon());
                 if (mWeatherForecast == null)
                     onFailure(dialog);
                 else
@@ -76,8 +84,8 @@ public class HomeFragment extends Fragment implements WeatherRecyclerAdapter.OnW
     }
 
     public void getWeeklyForecastByCoordinates(String longitude, String latitude) {
-        ProgressDialog dialog = ProgressDialog.show(getActivity(), "",
-                "Loading. Please wait...", true);
+
+        ProgressDialog dialog = ProgressDialog.show(getActivity(), "Searching Weather Info", "Please wait...", true);
         new Thread(new Runnable() {
             @Override
             public void run() {

@@ -116,9 +116,9 @@ public class MainActivity extends AppCompatActivity {
             popMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
-                    if (item.getItemId() == 1) // TODO: Search by City Name
+                    if (item.getItemId() == 1)
                         showSearchByCityNameDialog();
-                    if (item.getItemId() == 2) // TODO: Search by City Coordinates
+                    if (item.getItemId() == 2)
                         showSearchByCityCoordinatesDialog();
                     return false;
                 }

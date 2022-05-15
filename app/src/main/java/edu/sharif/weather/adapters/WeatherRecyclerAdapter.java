@@ -26,8 +26,8 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
     private OnWeatherListener mOnWeatherListener;
 
 
-    public WeatherRecyclerAdapter(ArrayList<DailyWeather> weatherForcast, OnWeatherListener onWeatherListener) {
-        this.weatherForecast = weatherForcast;
+    public WeatherRecyclerAdapter(ArrayList<DailyWeather> weatherForecast, OnWeatherListener onWeatherListener) {
+        this.weatherForecast = weatherForecast;
         this.mOnWeatherListener = onWeatherListener;
     }
 
