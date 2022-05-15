@@ -54,11 +54,6 @@ public class HomeFragment extends Fragment implements WeatherRecyclerAdapter.OnW
 
         mWeatherForecast = new ArrayList<>();
 
-//        mWeatherForecast.add(new DailyWeather(1,1,1,1));
-//        mWeatherForecast.add(new DailyWeather(2,2,2,2));
-//        mWeatherForecast.add(new DailyWeather(1,1,1,1));
-//        mWeatherForecast.add(new DailyWeather(2,2,2,2));
-
 
         adapter = new WeatherRecyclerAdapter(mWeatherForecast,this);
         recyclerView.setAdapter(adapter);
