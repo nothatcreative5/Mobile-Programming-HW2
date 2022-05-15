@@ -4,6 +4,7 @@ package edu.sharif.weather.adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +13,13 @@ import android.widget.TextView;
 
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import edu.sharif.weather.R;
 import edu.sharif.weather.model.DailyWeather;
+import edu.sharif.weather.view.MainActivity;
 
 
 import java.io.IOException;
@@ -109,6 +112,16 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
         @Override
         public void onClick(View view) {
             onWeatherListener.onWeatherClick(getAdapterPosition());
+            int position = getAdapterPosition();
+            double windSpeed = weatherForecast.get(position).getWindSpeed();
+            String description = weatherForecast.get(position).getDescription();
+            String windSpeedInfo = "⦿ Wind speed: " + windSpeed + " km/h";
+            String descriptionInfo = "⦿ Description: " + description;
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context)
+                    .setTitle("More Info")
+                    .setMessage(descriptionInfo + "\n" + windSpeedInfo);
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
         }
     }
 
