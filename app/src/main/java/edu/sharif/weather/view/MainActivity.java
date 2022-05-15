@@ -220,8 +220,8 @@ public class MainActivity extends AppCompatActivity {
         EditText latitudeEditText = new EditText(this);
         longitudeEditText.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1.0f));
         latitudeEditText.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1.0f));
-        longitudeEditText.setHint("Longitude (X)");
-        latitudeEditText.setHint("Latitude (Y)");
+        longitudeEditText.setHint("Longitude");
+        latitudeEditText.setHint("Latitude");
         longitudeEditText.setGravity(Gravity.CENTER_HORIZONTAL);
         latitudeEditText.setGravity(Gravity.CENTER_HORIZONTAL);
         longitudeEditText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
