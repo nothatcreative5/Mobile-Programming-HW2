@@ -94,10 +94,16 @@ public class HomeFragment extends Fragment implements WeatherRecyclerAdapter.OnW
         new Thread(() -> {
             mWeatherForecast = wc.getWeatherByLocationName(cityName);
             String completeName = wc.getGeoLocation(cityName).get("loc");
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    dialog[0].dismiss();
+                }
+            });
             if (mWeatherForecast == null)
-                onFailure(dialog[0]);
+                onFailure();
             else {
-                onSuccess(completeName, dialog[0]);
+                onSuccess(completeName);
             }
         }).start();
     }
@@ -134,9 +140,37 @@ public class HomeFragment extends Fragment implements WeatherRecyclerAdapter.OnW
     }
 
 
+    @SuppressLint("NotifyDataSetChanged")
+    public void onSuccess(String cityName) {
+        for (DailyWeather dw : mWeatherForecast) {
+            dw.setCityName(cityName);
+        }
+        getActivity().runOnUiThread(() -> {
+            Log.d("test","we do a little trolling");
+            adapter.changeDataSet(mWeatherForecast);
+            adapter.notifyDataSetChanged();
+            recyclerView.setVisibility(View.VISIBLE);
+            recyclerView.scrollToPosition(0);
+        });
+    }
+
+
+
     public void onFailure(ProgressDialog dialog) {
         getActivity().runOnUiThread(() -> {
             dialog.dismiss();
+            if (cm.getActiveNetworkInfo() != null) {
+                Toast.makeText(getActivity(), "A problem occurred. Please try again."
+                        , Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getActivity(), "You don't have an active internet Connection." +
+                        "Please try again later.", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void onFailure() {
+        getActivity().runOnUiThread(() -> {
             if (cm.getActiveNetworkInfo() != null) {
                 Toast.makeText(getActivity(), "A problem occurred. Please try again."
                         , Toast.LENGTH_LONG).show();
