@@ -112,14 +112,20 @@ public class HomeFragment extends Fragment implements WeatherRecyclerAdapter.OnW
         final ProgressDialog[] dialog = new ProgressDialog[1];
         getActivity().runOnUiThread(() -> dialog[0] = ProgressDialog.show(getActivity(), "Searching Weather Info", "Please wait...", true));
         new Thread(() -> {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    dialog[0].dismiss();
+                }
+            });
             String cityName = wc.getCityName(longitude, latitude);
             mWeatherForecast = wc.getWeatherByGeoLocation(latitude, longitude);
             if (cityName == null) {
                 onFailure(dialog[0], "We couldn't find a city with these coordinates. Please try another location.");
             } else if (mWeatherForecast == null) {
-                onFailure(dialog[0]);
+                onFailure();
             } else {
-                onSuccess(cityName, dialog[0]);
+                onSuccess(cityName);
             }
         }).start();
     }

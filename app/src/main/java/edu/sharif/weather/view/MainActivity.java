@@ -7,20 +7,25 @@ import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -164,6 +169,26 @@ public class MainActivity extends AppCompatActivity {
         simpleSearchDialogCompat.show();
 
         EditText cityEdit = simpleSearchDialogCompat.getSearchBox();
+
+        cityEdit.setInputType(InputType.TYPE_CLASS_TEXT);
+        cityEdit.setMaxLines(1);
+        cityEdit.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        cityEdit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if(cityEdit.getText().toString().isEmpty())
+                    return false;
+                if (i == EditorInfo.IME_ACTION_DONE) {
+                    timer.cancel();
+                    HomeFragment hf = (HomeFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+                    hf.getWeeklyForecastByCityName(cityEdit.getText().toString(),true);
+                    simpleSearchDialogCompat.dismiss();
+                    return true;
+                }
+                return false;
+            }
+        });
+
 
         cityEdit.addTextChangedListener(new TextWatcher() {
             @Override
