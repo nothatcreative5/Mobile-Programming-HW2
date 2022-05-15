@@ -200,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
                             simpleSearchDialogCompat.dismiss();
                             String cityName = cityEdit.getText().toString();
                             HomeFragment hf = (HomeFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-                            hf.getWeeklyForecastByCityName(cityName);
+                            hf.getWeeklyForecastByCityName(cityName,true);
                         }
                     },DELAY);
                 }

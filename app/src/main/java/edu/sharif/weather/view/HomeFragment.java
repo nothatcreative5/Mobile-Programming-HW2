@@ -94,6 +94,46 @@ public class HomeFragment extends Fragment implements WeatherRecyclerAdapter.OnW
         }).start();
     }
 
+
+    public void getWeeklyForecastByCityName(String cityName, boolean incomplete) {
+
+        final ProgressDialog[] dialog = new ProgressDialog[1];
+
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                dialog[0] =  ProgressDialog.show(getActivity(), "Searching Weather Info", "Please wait...", true);
+            }
+        });
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mWeatherForecast = wc.getWeatherByLocationName(cityName);
+                String completeName = wc.getGeoLocation(cityName).get("loc");
+                Log.d("Icon", mWeatherForecast.get(0).getDescription());
+                Log.d("Icon", mWeatherForecast.get(0).getIcon());
+                if (mWeatherForecast == null)
+                    onFailure(dialog[0]);
+                else
+                    onSuccess(completeName, dialog[0]);
+            }
+        }).start();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public void getWeeklyForecastByCoordinates(String longitude, String latitude) {
         final ProgressDialog[] dialog = new ProgressDialog[1];
         getActivity().runOnUiThread(new Runnable() {
