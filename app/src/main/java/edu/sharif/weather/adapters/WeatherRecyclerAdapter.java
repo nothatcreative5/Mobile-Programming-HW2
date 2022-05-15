@@ -2,6 +2,8 @@ package edu.sharif.weather.adapters;
 
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +19,15 @@ import edu.sharif.weather.R;
 import edu.sharif.weather.model.DailyWeather;
 
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecyclerAdapter.ViewHolder> {
 
     private ArrayList<DailyWeather> weatherForecast;
     private final OnWeatherListener mOnWeatherListener;
+    private Context context;
 
 
     public WeatherRecyclerAdapter(ArrayList<DailyWeather> weatherForecast, OnWeatherListener onWeatherListener) {
@@ -38,6 +43,7 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
     @Override
     public WeatherRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.weather_list, parent, false);
+        context = parent.getContext();
         return new ViewHolder(view, mOnWeatherListener);
     }
 
@@ -59,6 +65,14 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
 
         holder.humidity.setText(weatherForecast.get(position).getHumidity() + "%");
 
+        try {
+            String iconCode = weatherForecast.get(position).getIcon();
+            InputStream inputStream = context.getAssets().open(iconCode + ".png");
+            Drawable d = Drawable.createFromStream(inputStream, null);
+            holder.weatherIcon.setImageDrawable(d);
+        }
+        catch(Exception ignored) {
+        }
     }
 
     @Override
@@ -87,6 +101,7 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
             cityName = itemView.findViewById(R.id.cityName);
             date = itemView.findViewById(R.id.dateTextView);
             parentLayout = itemView.findViewById(R.id.parent_layout);
+            weatherIcon = itemView.findViewById(R.id.weatherIcon);
             this.onWeatherListener = onWeatherListener;
             itemView.setOnClickListener(this);
         }
