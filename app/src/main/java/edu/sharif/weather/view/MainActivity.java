@@ -3,6 +3,7 @@ package edu.sharif.weather.view;
 
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
 
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.graphics.Color;

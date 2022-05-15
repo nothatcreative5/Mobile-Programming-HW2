@@ -5,9 +5,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -79,17 +81,24 @@ public class HomeFragment extends Fragment implements WeatherRecyclerAdapter.OnW
 
 
     public void getWeeklyForecastByCityName(String cityName, boolean incomplete) {
-
         final ProgressDialog[] dialog = new ProgressDialog[1];
+//        getActivity().runOnUiThread(() ->  dialog[0] =  ProgressDialog.show(getActivity(), "Searching Weather Info", "Please wait...", true));
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                dialog[0] = ProgressDialog.show(getActivity(), "Searching Weather Info", "Please wait...", true);
+                Log.d("test",dialog[0].toString());
+            }
+        });
 
-        getActivity().runOnUiThread(() -> dialog[0] =  ProgressDialog.show(getActivity(), "Searching Weather Info", "Please wait...", true));
         new Thread(() -> {
             mWeatherForecast = wc.getWeatherByLocationName(cityName);
             String completeName = wc.getGeoLocation(cityName).get("loc");
             if (mWeatherForecast == null)
                 onFailure(dialog[0]);
-            else
+            else {
                 onSuccess(completeName, dialog[0]);
+            }
         }).start();
     }
 
@@ -110,14 +119,13 @@ public class HomeFragment extends Fragment implements WeatherRecyclerAdapter.OnW
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void onSuccess(String cityName, ProgressDialog dialog) {
-
+    public void onSuccess(String cityName,@NonNull ProgressDialog dialog) {
         for (DailyWeather dw : mWeatherForecast) {
             dw.setCityName(cityName);
         }
         getActivity().runOnUiThread(() -> {
-            if (dialog != null)
-                dialog.dismiss();
+            Log.d("test","we do a little trolling");
+            dialog.dismiss();
             adapter.changeDataSet(mWeatherForecast);
             adapter.notifyDataSetChanged();
             recyclerView.setVisibility(View.VISIBLE);
