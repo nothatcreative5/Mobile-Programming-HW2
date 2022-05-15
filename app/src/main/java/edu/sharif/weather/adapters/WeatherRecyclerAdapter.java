@@ -2,7 +2,6 @@ package edu.sharif.weather.adapters;
 
 
 import android.annotation.SuppressLint;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +22,7 @@ import java.util.ArrayList;
 public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecyclerAdapter.ViewHolder> {
 
     private ArrayList<DailyWeather> weatherForecast;
-    private OnWeatherListener mOnWeatherListener;
+    private final OnWeatherListener mOnWeatherListener;
 
 
     public WeatherRecyclerAdapter(ArrayList<DailyWeather> weatherForecast, OnWeatherListener onWeatherListener) {

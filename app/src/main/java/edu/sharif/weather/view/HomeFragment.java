@@ -4,10 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.ConnectivityManager;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Environment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,10 +19,6 @@ import com.mig35.carousellayoutmanager.CarouselLayoutManager;
 import com.mig35.carousellayoutmanager.CarouselZoomPostLayoutListener;
 import com.mig35.carousellayoutmanager.CenterScrollListener;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import edu.sharif.weather.R;
@@ -74,23 +67,13 @@ public class HomeFragment extends Fragment implements WeatherRecyclerAdapter.OnW
 
         final ProgressDialog[] dialog = new ProgressDialog[1];
 
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                dialog[0] =  ProgressDialog.show(getActivity(), "Searching Weather Info", "Please wait...", true);
-            }
-        });
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                mWeatherForecast = wc.getWeatherByLocationName(cityName);
-                Log.d("Icon", mWeatherForecast.get(0).getDescription());
-                Log.d("Icon", mWeatherForecast.get(0).getIcon());
-                if (mWeatherForecast == null)
-                    onFailure(dialog[0]);
-                else
-                    onSuccess(cityName, dialog[0]);
-            }
+        getActivity().runOnUiThread(() -> dialog[0] =  ProgressDialog.show(getActivity(), "Searching Weather Info", "Please wait...", true));
+        new Thread(() -> {
+            mWeatherForecast = wc.getWeatherByLocationName(cityName);
+            if (mWeatherForecast == null)
+                onFailure(dialog[0]);
+            else
+                onSuccess(cityName, dialog[0]);
         }).start();
     }
 
@@ -99,114 +82,71 @@ public class HomeFragment extends Fragment implements WeatherRecyclerAdapter.OnW
 
         final ProgressDialog[] dialog = new ProgressDialog[1];
 
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                dialog[0] =  ProgressDialog.show(getActivity(), "Searching Weather Info", "Please wait...", true);
-            }
-        });
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                mWeatherForecast = wc.getWeatherByLocationName(cityName);
-                String completeName = wc.getGeoLocation(cityName).get("loc");
-                Log.d("Icon", mWeatherForecast.get(0).getDescription());
-                Log.d("Icon", mWeatherForecast.get(0).getIcon());
-                if (mWeatherForecast == null)
-                    onFailure(dialog[0]);
-                else
-                    onSuccess(completeName, dialog[0]);
-            }
+        getActivity().runOnUiThread(() -> dialog[0] =  ProgressDialog.show(getActivity(), "Searching Weather Info", "Please wait...", true));
+        new Thread(() -> {
+            mWeatherForecast = wc.getWeatherByLocationName(cityName);
+            String completeName = wc.getGeoLocation(cityName).get("loc");
+            if (mWeatherForecast == null)
+                onFailure(dialog[0]);
+            else
+                onSuccess(completeName, dialog[0]);
         }).start();
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     public void getWeeklyForecastByCoordinates(String longitude, String latitude) {
         final ProgressDialog[] dialog = new ProgressDialog[1];
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                dialog[0] = ProgressDialog.show(getActivity(), "Searching Weather Info", "Please wait...", true);
-            }
-        });
-        Log.d("sadegh","kireee khar");
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String cityName = wc.getCityName(longitude, latitude);
-                mWeatherForecast = wc.getWeatherByGeoLocation(latitude, longitude);
-                if (cityName == null) {
-                    onFailure(dialog[0], "We couldn't find a city with these coordinates. Please try another location");
-                } else if (mWeatherForecast == null) {
-                    onFailure(dialog[0]);
-                } else {
-                    onSuccess(cityName, dialog[0]);
-                }
+        getActivity().runOnUiThread(() -> dialog[0] = ProgressDialog.show(getActivity(), "Searching Weather Info", "Please wait...", true));
+        new Thread(() -> {
+            String cityName = wc.getCityName(longitude, latitude);
+            mWeatherForecast = wc.getWeatherByGeoLocation(latitude, longitude);
+            if (cityName == null) {
+                onFailure(dialog[0], "We couldn't find a city with these coordinates. Please try another location");
+            } else if (mWeatherForecast == null) {
+                onFailure(dialog[0]);
+            } else {
+                onSuccess(cityName, dialog[0]);
             }
         }).start();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void onSuccess(String cityName, ProgressDialog dialog) {
 
         for (DailyWeather dw : mWeatherForecast) {
             dw.setCityName(cityName);
         }
-        getActivity().runOnUiThread(new Runnable() {
-            @SuppressLint("NotifyDataSetChanged")
-            @Override
-            public void run() {
-                dialog.dismiss();
-                adapter.changeDataSet(mWeatherForecast);
-                adapter.notifyDataSetChanged();
-                recyclerView.setVisibility(View.VISIBLE);
-                recyclerView.scrollToPosition(0);
-            }
+        getActivity().runOnUiThread(() -> {
+            dialog.dismiss();
+            adapter.changeDataSet(mWeatherForecast);
+            adapter.notifyDataSetChanged();
+            recyclerView.setVisibility(View.VISIBLE);
+            recyclerView.scrollToPosition(0);
         });
     }
 
 
     public void onFailure(ProgressDialog dialog) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                dialog.dismiss();
-                if (cm.getActiveNetworkInfo() != null) {
-                    Toast.makeText(getActivity(), "A problem occurred. Please try again."
-                            , Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(getActivity(), "You don't have an active internet Connection." +
-                            "Please try again later.", Toast.LENGTH_LONG).show();
-                }
+        getActivity().runOnUiThread(() -> {
+            dialog.dismiss();
+            if (cm.getActiveNetworkInfo() != null) {
+                Toast.makeText(getActivity(), "A problem occurred. Please try again."
+                        , Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getActivity(), "You don't have an active internet Connection." +
+                        "Please try again later.", Toast.LENGTH_LONG).show();
             }
         });
     }
 
     public void onFailure(ProgressDialog dialog, String message) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if(dialog != null)
-                    dialog.dismiss();
-                Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
-            }
+        getActivity().runOnUiThread(() -> {
+            if(dialog != null)
+                dialog.dismiss();
+            Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
         });
     }
 
     @Override
     public void onWeatherClick(int position) {
-        Log.d("test", "someone clicked on my pussy.");
     }
 }

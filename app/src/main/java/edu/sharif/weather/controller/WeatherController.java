@@ -101,7 +101,6 @@ public class WeatherController {
                     )
                     .build();
 
-            //todo(sadegh)
             Response response = client.newCall(request).execute();
             String body = Objects.requireNonNull(response.body()).string();
             JSONObject obj = new JSONObject(body);
@@ -137,32 +136,11 @@ public class WeatherController {
             Request request = new Request.Builder()
                     .url(url)
                     .build();
-            Log.d("sadegh","abkos");
             Response response = client.newCall(request).execute();
             String body = Objects.requireNonNull(response.body()).string();
-            Log.d("sadegh",body);
             JSONObject obj = new JSONObject(body);
             return obj.getJSONArray("features").getJSONObject(0).getString("text");
         } catch (IOException | JSONException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    //Todo
-    public Bitmap getWeatherIcon(String iconCode) {
-        try {
-            HttpUrl.Builder urlBuilder = HttpUrl
-                    .parse("https://openweathermap.org/img/wn/" + iconCode + "@2x.png")
-                    .newBuilder();
-            String url = urlBuilder.build().toString();
-
-            Request request = new Request.Builder().url(url).build();
-            Response response = client.newCall(request).execute();
-            InputStream inputStream = response.body().byteStream();
-            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-            return bitmap;
-        } catch (IOException | NullPointerException e) {
             e.printStackTrace();
             return null;
         }

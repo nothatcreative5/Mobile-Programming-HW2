@@ -3,8 +3,6 @@ package edu.sharif.weather.view;
 
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
 
-import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.graphics.Color;
@@ -12,16 +10,12 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewStub;
-import android.view.ViewTreeObserver;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -46,8 +40,6 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import org.json.JSONObject;
-
 import edu.sharif.weather.R;
 import edu.sharif.weather.controller.WeatherController;
 import edu.sharif.weather.model.CitySearchModel;
@@ -71,13 +63,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         WeatherController.application = getApplication();
         wc = WeatherController.getControllerInstance();
-        Log.d("Why", "why");
         sharedPreferences = getSharedPreferences(Shared_KEY, MODE_PRIVATE);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
         new Thread(() -> {
             ArrayList<DailyWeather> test = wc.getWeatherByGeoLocation("22", "32");
-            Log.d("Bug", test.toString());
         }).start();
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
@@ -115,15 +105,12 @@ public class MainActivity extends AppCompatActivity {
             popMenu.getMenu().add(1, 1, 1, "Search by City Name");
             popMenu.getMenu().add(1, 2, 2, "Search by City Coordinates");
             popMenu.show();
-            popMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    if (item.getItemId() == 1)
-                        showSearchByCityNameDialog();
-                    if (item.getItemId() == 2)
-                        showSearchByCityCoordinatesDialog();
-                    return false;
-                }
+            popMenu.setOnMenuItemClickListener(item1 -> {
+                if (item1.getItemId() == 1)
+                    showSearchByCityNameDialog();
+                if (item1.getItemId() == 2)
+                    showSearchByCityCoordinatesDialog();
+                return false;
             });
             return true;
         }
@@ -146,8 +133,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private List<View> getAllChildrenBFS(View v) {
-        List<View> visited = new ArrayList<View>();
-        List<View> unvisited = new ArrayList<View>();
+        List<View> visited = new ArrayList<>();
+        List<View> unvisited = new ArrayList<>();
         unvisited.add(v);
         while (!unvisited.isEmpty()) {
             View child = unvisited.remove(0);
@@ -208,15 +195,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        simpleSearchDialogCompat.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialogInterface) {
-                timer.cancel();
-            }
-        });
-
-
-
+        simpleSearchDialogCompat.setOnDismissListener(dialogInterface -> timer.cancel());
 
         // Handling dark mode for SimpleSearchDialogCompat library
         if (AppCompatDelegate.getDefaultNightMode() == MODE_NIGHT_YES) {
@@ -289,19 +268,12 @@ public class MainActivity extends AppCompatActivity {
                     HomeFragment hf = (HomeFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
                     hf.getWeeklyForecastByCoordinates(Double.toString(longitude), Double.toString(latitude));
                 })
-                .setNegativeButton("Cancel", (dialogInterface, i) -> {
-                    timer.cancel();
-                });
+                .setNegativeButton("Cancel", (dialogInterface, i) -> timer.cancel());
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
         alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
-        alertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialogInterface) {
-                timer.cancel();
-            }
-        });
+        alertDialog.setOnDismissListener(dialogInterface -> timer.cancel());
         longitudeEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

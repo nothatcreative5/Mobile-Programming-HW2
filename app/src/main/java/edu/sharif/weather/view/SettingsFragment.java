@@ -20,7 +20,6 @@ import androidx.fragment.app.Fragment;
 
 import edu.sharif.weather.R;
 import ma.apps.widgets.daynightswitch.DayNightSwitch;
-import ma.apps.widgets.daynightswitch.OnSwitchListener;
 
 public class SettingsFragment extends Fragment {
 
@@ -45,16 +44,13 @@ public class SettingsFragment extends Fragment {
         boolean isNight = AppCompatDelegate.getDefaultNightMode() == MODE_NIGHT_YES;
         imageView.setBackgroundResource(isNight ? R.drawable.ic_moon : R.drawable.ic_sun);
         dayNightSwitch.setDayChecked(!isNight, false);
-        dayNightSwitch.setOnSwitchListener(new OnSwitchListener() {
-            @Override
-            public void onSwitch(@NonNull DayNightSwitch dayNightSwitch, boolean isDay) {
-                if (isDay) {
-                    saveDarkModeState(false);
-                    AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO);
-                } else {
-                    saveDarkModeState(true);
-                    AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES);
-                }
+        dayNightSwitch.setOnSwitchListener((dayNightSwitch1, isDay) -> {
+            if (isDay) {
+                saveDarkModeState(false);
+                AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO);
+            } else {
+                saveDarkModeState(true);
+                AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES);
             }
         });
     }
