@@ -1,6 +1,7 @@
 package edu.sharif.weather.adapters;
 
 
+import android.annotation.SuppressLint;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,8 +31,8 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
         this.mOnWeatherListener = onWeatherListener;
     }
 
-    public void changeDataSet(ArrayList<DailyWeather> weatherForcast) {
-        this.weatherForecast = weatherForcast;
+    public void changeDataSet(ArrayList<DailyWeather> weatherForecast) {
+        this.weatherForecast = weatherForecast;
     }
 
     @NonNull
@@ -41,22 +42,23 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
         return new ViewHolder(view, mOnWeatherListener);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull WeatherRecyclerAdapter.ViewHolder holder, int position) {
 
-        holder.parentLayout.setBackgroundColor(0xFF42ecf5);
-
         holder.cityName.setText(weatherForecast.get(position).getCityName());
-        holder.cityName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
 
-        holder.temperature.setText("Temperature : " + weatherForecast.get(position).getTemp() + "\u00B0");
-        holder.temperature.setTextSize(TypedValue.COMPLEX_UNIT_SP, 23);
+        String dateString = position + " days later";
+        if (position == 0)
+            dateString = "Today";
+        else if (position == 1)
+            dateString = "Tomorrow";
+        holder.date.setText(dateString);
+        holder.temperature.setText(weatherForecast.get(position).getTemp() + "\u00B0");
 
-        holder.feelsLike.setText("Feels like : " + weatherForecast.get(position).getFeelsLike() + " \u00B0");
-        holder.feelsLike.setTextSize(TypedValue.COMPLEX_UNIT_SP, 23);
+        holder.feelsLike.setText(weatherForecast.get(position).getFeelsLike() + "\u00B0");
 
-        holder.humidity.setText("Humidity : " + weatherForecast.get(position).getHumidity());
-        holder.humidity.setTextSize(TypedValue.COMPLEX_UNIT_SP, 23);
+        holder.humidity.setText(weatherForecast.get(position).getHumidity() + "%");
 
     }
 
@@ -72,6 +74,7 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
         TextView temperature;
         TextView feelsLike;
         TextView cityName;
+        TextView date;
         TextView humidity;
         ImageView weatherIcon;
         ConstraintLayout parentLayout;
@@ -83,6 +86,7 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
             feelsLike = itemView.findViewById(R.id.feelsLike);
             humidity = itemView.findViewById(R.id.humidity);
             cityName = itemView.findViewById(R.id.cityName);
+            date = itemView.findViewById(R.id.dateTextView);
             parentLayout = itemView.findViewById(R.id.parent_layout);
             this.onWeatherListener = onWeatherListener;
             itemView.setOnClickListener(this);
@@ -98,6 +102,5 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
     public interface OnWeatherListener {
         void onWeatherClick(int position);
     }
-
 
 }
