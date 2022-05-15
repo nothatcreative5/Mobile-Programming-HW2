@@ -45,7 +45,7 @@ public class WeatherController {
             JSONObject obj = new JSONObject(body);
             ArrayList<DailyWeather> output = new ArrayList<>();
             JSONArray dailyWeathers = obj.getJSONArray("daily");
-            for (int i = 0; i < 7; i++) {
+            for (int i = 0; i < 8; i++) {
                 JSONObject weather = dailyWeathers.getJSONObject(i);
                 output.add(new DailyWeather(
                         weather.getJSONObject("temp").getDouble("day"),

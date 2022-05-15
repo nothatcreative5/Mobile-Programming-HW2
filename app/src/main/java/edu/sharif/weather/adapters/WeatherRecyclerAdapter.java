@@ -47,8 +47,13 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
     public void onBindViewHolder(@NonNull WeatherRecyclerAdapter.ViewHolder holder, int position) {
 
         holder.cityName.setText(weatherForecast.get(position).getCityName());
-        holder.cityName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
 
+        String dateString = position + " days later";
+        if (position == 0)
+            dateString = "Today";
+        else if (position == 1)
+            dateString = "Tomorrow";
+        holder.date.setText(dateString);
         holder.temperature.setText(weatherForecast.get(position).getTemp() + "\u00B0");
 
         holder.feelsLike.setText(weatherForecast.get(position).getFeelsLike() + "\u00B0");
@@ -69,6 +74,7 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
         TextView temperature;
         TextView feelsLike;
         TextView cityName;
+        TextView date;
         TextView humidity;
         ImageView weatherIcon;
         ConstraintLayout parentLayout;
@@ -79,7 +85,8 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
             temperature = itemView.findViewById(R.id.temperature);
             feelsLike = itemView.findViewById(R.id.feelsLike);
             humidity = itemView.findViewById(R.id.humidity);
-            cityName = itemView.findViewById(R.id.timeEditText);
+            cityName = itemView.findViewById(R.id.cityName);
+            date = itemView.findViewById(R.id.dateTextView);
             parentLayout = itemView.findViewById(R.id.parent_layout);
             this.onWeatherListener = onWeatherListener;
             itemView.setOnClickListener(this);
