@@ -85,7 +85,7 @@ public class WeatherController {
         }
     }
 
-    private HashMap<String, String> getGeoLocation(String locationName) {
+    public HashMap<String, String> getGeoLocation(String locationName) {
         try {
             HttpUrl.Builder urlBuilder = HttpUrl.parse("https://api.mapbox.com/geocoding/v5/mapbox.places/" + locationName + ".json").newBuilder();
             urlBuilder.addQueryParameter("access_token", BuildConfig.MAP_BOX_API_KEY);
@@ -105,11 +105,11 @@ public class WeatherController {
             Response response = client.newCall(request).execute();
             String body = Objects.requireNonNull(response.body()).string();
             JSONObject obj = new JSONObject(body);
-            Log.d("sadegh",body.toString());
             JSONArray geoLocArr = obj.getJSONArray("features").getJSONObject(0).getJSONArray("center");
             HashMap<String, String> geoLoc = new HashMap<>();
             geoLoc.put("lat", String.valueOf(geoLocArr.getDouble(1)));
             geoLoc.put("lon", String.valueOf(geoLocArr.getDouble(0)));
+            geoLoc.put("loc", obj.getJSONArray("features").getJSONObject(0).getString("text"));
             return geoLoc;
         } catch (IOException | JSONException e) {
             e.printStackTrace();
