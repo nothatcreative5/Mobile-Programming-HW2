@@ -2,6 +2,7 @@ package edu.sharif.weather;
 
 import static org.junit.Assert.assertEquals;
 
+import android.app.Application;
 import android.graphics.Bitmap;
 
 import org.json.JSONObject;
@@ -22,14 +23,14 @@ import edu.sharif.weather.model.DailyWeather;
 public class ExampleUnitTest {
     @Test
     public void weather_isCorrect() {
-        WeatherController wc = new WeatherController();
+        WeatherController wc = new WeatherController(new Application());
         ArrayList<DailyWeather> x = wc.getWeatherByGeoLocation("33.44", "-94.04");
         assertEquals(4, 2 + 2);
     }
 
     @Test
     public void location_isCorrect() {
-        WeatherController wc = new WeatherController();
+        WeatherController wc = new WeatherController(new Application());
         ArrayList<DailyWeather> x = wc.getWeatherByLocationName("Tehran");
         int i = 1;
         for (DailyWeather weather: x) {

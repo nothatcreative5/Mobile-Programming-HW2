@@ -61,14 +61,14 @@ public class MainActivity extends AppCompatActivity {
     private static final String Shared_KEY = "edu.sharif.weather";
     private SharedPreferences sharedPreferences;
 
-    WeatherController wc = new WeatherController();
-
+    WeatherController wc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        WeatherController.application = getApplication();
+        wc = WeatherController.getControllerInstance();
         Log.d("Why", "why");
         sharedPreferences = getSharedPreferences(Shared_KEY, MODE_PRIVATE);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);

@@ -45,8 +45,7 @@ public class HomeFragment extends Fragment implements WeatherRecyclerAdapter.OnW
         final CarouselLayoutManager layoutManager = new CarouselLayoutManager(CarouselLayoutManager.HORIZONTAL, false);
         layoutManager.setPostLayoutListener(new CarouselZoomPostLayoutListener());
 
-        wc = new WeatherController();
-
+        wc = WeatherController.getControllerInstance();
 
         recyclerView = view.findViewById(R.id.weatherRecycler);
         recyclerView.setLayoutManager(layoutManager);
