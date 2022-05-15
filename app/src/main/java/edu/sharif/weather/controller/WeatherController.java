@@ -123,6 +123,7 @@ public class WeatherController {
         }
     }
 
+    //Todo
     public Bitmap getWeatherIcon(String iconCode) {
         try {
             HttpUrl.Builder urlBuilder = HttpUrl
