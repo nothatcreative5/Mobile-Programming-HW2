@@ -5,11 +5,9 @@
     android:id="@+id/parent_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="5dp"
     android:layout_marginRight="20dp"
     android:layout_marginLeft="20dp"
-    android:layout_marginBottom="5dp"
-    android:background="#E8E8E8">
+    android:background="@drawable/border">
 
     <TextView
         android:id="@+id/feelsLike"
@@ -18,7 +16,7 @@
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:text="TextView"
-        android:textColor="@color/black"
+        android:textColor="?attr/colorOnSecondary"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,7 +32,7 @@
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:text="TextView"
-        android:textColor="@color/black"
+        android:textColor="?attr/colorOnSecondary"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -50,7 +48,7 @@
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:text="TextView"
-        android:textColor="@color/black"
+        android:textColor="?attr/colorOnSecondary"
         android:textSize="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -65,7 +63,7 @@
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:text="TextView"
-        android:textColor="@color/black"
+        android:textColor="?attr/colorOnSecondary"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

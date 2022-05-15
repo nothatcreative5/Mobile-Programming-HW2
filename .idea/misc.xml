@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Term6/Mobile_Programming/HW2/app/src/main/res/drawable-v23/ic_search_button.xml" value="0.1615" />
+        <entry key="..\:/Term6/Mobile_Programming/HW2/app/src/main/res/drawable/border.xml" value="0.14666666666666667" />
         <entry key="..\:/Term6/Mobile_Programming/HW2/app/src/main/res/drawable/ic_bg_dark_mode.xml" value="0.1" />
         <entry key="..\:/Term6/Mobile_Programming/HW2/app/src/main/res/drawable/ic_home.xml" value="0.1785" />
         <entry key="..\:/Term6/Mobile_Programming/HW2/app/src/main/res/drawable/ic_map_search_svgrepo_com.xml" value="0.1615" />
@@ -14,6 +15,7 @@
         <entry key="..\:/Term6/Mobile_Programming/HW2/app/src/main/res/layout/fragment_home.xml" value="0.1" />
         <entry key="..\:/Term6/Mobile_Programming/HW2/app/src/main/res/layout/fragment_search.xml" value="0.1" />
         <entry key="..\:/Term6/Mobile_Programming/HW2/app/src/main/res/layout/fragment_settings.xml" value="0.16666666666666666" />
+        <entry key="..\:/Term6/Mobile_Programming/HW2/app/src/main/res/layout/weather_list.xml" value="0.22" />
         <entry key="..\:/Term6/Mobile_Programming/HW2/app/src/main/res/menu/bottom_navigation.xml" value="0.1796875" />
         <entry key="..\:/Term6/Mobile_Programming/HW2/app/src/main/res/menu/top_action_bar.xml" value="0.1" />
         <entry key="..\:/Users/Arya/Desktop/MobileProgrammingHW2/app/src/main/res/layout/activity_main_page.xml" value="0.36666666666666664" />

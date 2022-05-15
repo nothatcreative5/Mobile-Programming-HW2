@@ -30,8 +30,8 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
         this.mOnWeatherListener = onWeatherListener;
     }
 
-    public void changeDataSet(ArrayList<DailyWeather> weatherForcast) {
-        this.weatherForecast = weatherForcast;
+    public void changeDataSet(ArrayList<DailyWeather> weatherForecast) {
+        this.weatherForecast = weatherForecast;
     }
 
     @NonNull
@@ -44,7 +44,7 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
     @Override
     public void onBindViewHolder(@NonNull WeatherRecyclerAdapter.ViewHolder holder, int position) {
 
-        holder.parentLayout.setBackgroundColor(0xFF42ecf5);
+        // holder.parentLayout.setBackgroundColor(0xFF42ecf5);
 
         holder.cityName.setText(weatherForecast.get(position).getCityName());
         holder.cityName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
