@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
             while ((line = lin.readLine()) != null) {
                 items.add(new CitySearchModel(line));
             }
-        } catch (IOException ignored) {
+        } catch (Exception ignored) {
         }
         return items;
     }
