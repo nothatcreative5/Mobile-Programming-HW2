@@ -21,32 +21,32 @@ import edu.sharif.weather.model.DailyWeather;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 public class ExampleUnitTest {
-    @Test
-    public void weather_isCorrect() {
-        WeatherController wc = new WeatherController(new Application());
-        ArrayList<DailyWeather> x = wc.getWeatherByGeoLocation("33.44", "-94.04");
-        assertEquals(4, 2 + 2);
-    }
-
-    @Test
-    public void location_isCorrect() {
-        WeatherController wc = new WeatherController(new Application());
-        ArrayList<DailyWeather> x = wc.getWeatherByLocationName("Tehran");
-        int i = 1;
-        for (DailyWeather weather: x) {
-            System.out.println("Day " + i);
-            System.out.println("temp: " + weather.getTemp());
-            System.out.println("feels_like: " + weather.getFeelsLike());
-            System.out.println("wind_speed: " + weather.getWindSpeed());
-            System.out.println("humidity: " + weather.getHumidity());
-            System.out.println("description: " + weather.getDescription());
-            System.out.println("icon: " + weather.getIcon());
-            i++;
-            System.out.println("=====================================================");
-        }
-        assertEquals(4, 2 + 2);
-    }
-
+//    @Test
+//    public void weather_isCorrect() {
+//        WeatherController wc = new WeatherController(new Application());
+//        ArrayList<DailyWeather> x = wc.getWeatherByGeoLocation("33.44", "-94.04");
+//        assertEquals(4, 2 + 2);
+//    }
+//
+//    @Test
+//    public void location_isCorrect() {
+//        WeatherController wc = new WeatherController(new Application());
+//        ArrayList<DailyWeather> x = wc.getWeatherByLocationName("Tehran");
+//        int i = 1;
+//        for (DailyWeather weather: x) {
+//            System.out.println("Day " + i);
+//            System.out.println("temp: " + weather.getTemp());
+//            System.out.println("feels_like: " + weather.getFeelsLike());
+//            System.out.println("wind_speed: " + weather.getWindSpeed());
+//            System.out.println("humidity: " + weather.getHumidity());
+//            System.out.println("description: " + weather.getDescription());
+//            System.out.println("icon: " + weather.getIcon());
+//            i++;
+//            System.out.println("=====================================================");
+//        }
+//        assertEquals(4, 2 + 2);
+//    }
+//
 
 //    @Test
 //    public void icon_isCorrect() {
