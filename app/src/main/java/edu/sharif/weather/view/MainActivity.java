@@ -159,36 +159,27 @@ public class MainActivity extends AppCompatActivity {
                 (SearchResultListener<CitySearchModel>) (dialog, item, position) -> {
                     timer.cancel();
                     String cityName = item.getTitle();
-                    // API Handling
                     HomeFragment hf = (HomeFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
                     hf.getWeeklyForecastByCityName(cityName);
-                    Toast.makeText(MainActivity.this, cityName,
-                            Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                 });
         simpleSearchDialogCompat.show();
 
         EditText cityEdit = simpleSearchDialogCompat.getSearchBox();
-
-        cityEdit.setInputType(InputType.TYPE_CLASS_TEXT);
-        cityEdit.setMaxLines(1);
+        cityEdit.setSingleLine();
         cityEdit.setImeOptions(EditorInfo.IME_ACTION_DONE);
-        cityEdit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if (cityEdit.getText().toString().isEmpty())
-                    return false;
-                if (i == EditorInfo.IME_ACTION_DONE) {
-                    timer.cancel();
-                    HomeFragment hf = (HomeFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-                    hf.getWeeklyForecastByCityName(cityEdit.getText().toString(), true);
-                    simpleSearchDialogCompat.dismiss();
-                    return true;
-                }
+        cityEdit.setOnEditorActionListener((textView, i, keyEvent) -> {
+            if (cityEdit.getText().toString().trim().isEmpty())
                 return false;
+            if (i == EditorInfo.IME_ACTION_DONE) {
+                timer.cancel();
+                HomeFragment hf = (HomeFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+                hf.getWeeklyForecastByCityName(cityEdit.getText().toString(), true);
+                simpleSearchDialogCompat.dismiss();
+                return true;
             }
+            return false;
         });
-
 
         cityEdit.addTextChangedListener(new TextWatcher() {
             @Override
@@ -219,8 +210,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-
         simpleSearchDialogCompat.setOnDismissListener(dialogInterface -> timer.cancel());
 
         // Handling dark mode for SimpleSearchDialogCompat library
