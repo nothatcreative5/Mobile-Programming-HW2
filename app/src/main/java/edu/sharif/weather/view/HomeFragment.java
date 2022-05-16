@@ -1,8 +1,11 @@
 package edu.sharif.weather.view;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +20,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.mig35.carousellayoutmanager.CarouselLayoutManager;
 import com.mig35.carousellayoutmanager.CarouselZoomPostLayoutListener;
 import com.mig35.carousellayoutmanager.CenterScrollListener;
@@ -31,6 +36,8 @@ import edu.sharif.weather.model.DailyWeather;
 
 public class HomeFragment extends Fragment implements WeatherRecyclerAdapter.OnWeatherListener {
 
+    private static final String Shared_KEY = "edu.sharif.weather";
+    private SharedPreferences sharedPreferences;
 
     private RecyclerView recyclerView;
     private ArrayList<DailyWeather> mWeatherForecast;
@@ -58,10 +65,14 @@ public class HomeFragment extends Fragment implements WeatherRecyclerAdapter.OnW
         recyclerView.setHasFixedSize(true);
         recyclerView.addOnScrollListener(new CenterScrollListener());
 
-        mWeatherForecast = new ArrayList<>();
+        sharedPreferences = this.getActivity().getSharedPreferences(Shared_KEY, MODE_PRIVATE);
+        String objectAsString = sharedPreferences.getString("RecyclerViewState", "");
+
+        mWeatherForecast = new Gson().fromJson(objectAsString, new TypeToken<ArrayList<DailyWeather>>(){}.getType());
         adapter = new WeatherRecyclerAdapter(mWeatherForecast, this);
         recyclerView.setAdapter(adapter);
-        recyclerView.setVisibility(View.INVISIBLE);
+        if (mWeatherForecast.size() == 0)
+            recyclerView.setVisibility(View.INVISIBLE);
     }
 
     public void getWeeklyForecastByCityName(String cityName) {
@@ -109,16 +120,25 @@ public class HomeFragment extends Fragment implements WeatherRecyclerAdapter.OnW
             adapter.notifyDataSetChanged();
             recyclerView.setVisibility(View.VISIBLE);
             recyclerView.scrollToPosition(0);
+
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("RecyclerViewState", new Gson().toJson(mWeatherForecast));
+            editor.apply();
         });
     }
 
     public void onFailure(String message) {
         getActivity().runOnUiThread(() -> {
+            recyclerView.setVisibility(View.INVISIBLE);
             if (cm.getActiveNetworkInfo() != null) {
                 Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(getActivity(), "You don't have an active internet Connection. Please try again later.", Toast.LENGTH_LONG).show();
             }
+
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("RecyclerViewState", new Gson().toJson(new ArrayList<DailyWeather>()));
+            editor.apply();
         });
     }
 

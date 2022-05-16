@@ -48,4 +48,5 @@ dependencies {
     implementation 'com.github.MasterAlish:Android-DayNightSwitch:v0.1'
     implementation 'com.mig35:carousellayoutmanager:1.4.6'
     implementation 'com.github.mirrajabi:search-dialog:1.2.4'
+    implementation 'com.google.code.gson:gson:2.8.8'
 }
