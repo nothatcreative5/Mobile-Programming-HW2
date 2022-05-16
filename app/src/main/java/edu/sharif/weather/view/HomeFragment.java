@@ -63,9 +63,12 @@ public class HomeFragment extends Fragment implements WeatherRecyclerAdapter.OnW
         recyclerView.addOnScrollListener(new CenterScrollListener());
 
         sharedPreferences = this.getActivity().getSharedPreferences(Shared_KEY, MODE_PRIVATE);
-        String objectAsString = sharedPreferences.getString("RecyclerViewState", "");
-
-        mWeatherForecast = new Gson().fromJson(objectAsString, new TypeToken<ArrayList<DailyWeather>>(){}.getType());
+        String objectAsString = sharedPreferences.getString("RecyclerViewState", "[]");
+        mWeatherForecast = new ArrayList<>();
+        try {
+            mWeatherForecast = new Gson().fromJson(objectAsString, new TypeToken<ArrayList<DailyWeather>>() {}.getType());
+        } catch (Exception ignored) {
+        }
         adapter = new WeatherRecyclerAdapter(mWeatherForecast, this);
         recyclerView.setAdapter(adapter);
         if (mWeatherForecast.size() == 0)
