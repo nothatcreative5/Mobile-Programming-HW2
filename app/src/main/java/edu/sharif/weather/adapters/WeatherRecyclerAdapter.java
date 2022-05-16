@@ -49,6 +49,7 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
     @Override
     public void onBindViewHolder(@NonNull WeatherRecyclerAdapter.ViewHolder holder, int position) {
 
+        holder.cityName.setMaxLines(1);
         holder.cityName.setText(weatherForecast.get(position).getCityName());
 
         String dateString = position + " days later";
