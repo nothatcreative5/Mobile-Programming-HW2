@@ -41,7 +41,6 @@ import java.util.TimerTask;
 import edu.sharif.weather.R;
 import edu.sharif.weather.controller.WeatherController;
 import edu.sharif.weather.model.CitySearchModel;
-import edu.sharif.weather.model.DailyWeather;
 import ir.mirrajabi.searchdialog.SimpleSearchDialogCompat;
 import ir.mirrajabi.searchdialog.core.SearchResultListener;
 
