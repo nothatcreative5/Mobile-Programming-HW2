@@ -4,6 +4,8 @@ package edu.sharif.weather.adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
@@ -45,11 +48,13 @@ public class WeatherRecyclerAdapter extends RecyclerView.Adapter<WeatherRecycler
         return new ViewHolder(view, mOnWeatherListener);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull WeatherRecyclerAdapter.ViewHolder holder, int position) {
 
         holder.cityName.setMaxLines(1);
+        holder.cityName.setAutoSizeTextTypeUniformWithConfiguration(1, 32, 1, TypedValue.COMPLEX_UNIT_DIP);
         holder.cityName.setText(weatherForecast.get(position).getCityName());
 
         String dateString = position + " days later";
