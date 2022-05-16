@@ -58,10 +58,8 @@ public class WeatherController {
                                     .build()
                     )
                     .build();
-            Log.d("debug", "getWeatherByGeoLocation(" + request + ")");
             Response response = client.newCall(request).execute();
             String body = Objects.requireNonNull(response.body()).string();
-            Log.d("debug", "getWeatherByGeoLocation(" + body + ")");
             JSONObject obj = new JSONObject(body);
             ArrayList<DailyWeather> output = new ArrayList<>();
             JSONArray dailyWeathers = obj.getJSONArray("daily");
@@ -85,24 +83,15 @@ public class WeatherController {
 
     public HashMap<String, String> getGeoLocation(String locationName) {
         try {
-            Log.d("debug", "getGeoLocation(" + locationName + ")");
             HttpUrl.Builder urlBuilder = HttpUrl.parse("https://api.mapbox.com/geocoding/v5/mapbox.places/" + locationName + ".json").newBuilder();
             urlBuilder.addQueryParameter("access_token", BuildConfig.MAP_BOX_API_KEY);
             String url = urlBuilder.build().toString();
 
             Request request = new Request.Builder()
                     .url(url)
-//                    .cacheControl(
-//                            new CacheControl.Builder()
-//                                    .maxAge(10, TimeUnit.MINUTES)
-//                                    .maxStale(12, TimeUnit.HOURS)
-//                                    .build()
-//                    )
                     .build();
-            Log.d("debug", "getGeoLocation(" + request + ")");
             Response response = client.newCall(request).execute();
             String body = Objects.requireNonNull(response.body()).string();
-            Log.d("debug", "getGeoLocation(" + body + ")");
             JSONObject obj = new JSONObject(body);
             JSONArray geoLocArr = obj.getJSONArray("features").getJSONObject(0).getJSONArray("center");
             HashMap<String, String> geoLoc = new HashMap<>();
