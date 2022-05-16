@@ -64,10 +64,6 @@ public class MainActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(Shared_KEY, MODE_PRIVATE);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
-        new Thread(() -> {
-            ArrayList<DailyWeather> test = wc.getWeatherByGeoLocation("22", "32");
-        }).start();
-
         bottomNavigationView.setOnItemSelectedListener(item -> {
             Fragment selectedFragment = new HomeFragment();
             if (item.getItemId() == R.id.nav_settings)

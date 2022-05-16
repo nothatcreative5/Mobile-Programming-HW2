@@ -96,7 +96,6 @@ public class WeatherController {
                                     .build()
                     )
                     .build();
-
             Response response = client.newCall(request).execute();
             String body = Objects.requireNonNull(response.body()).string();
             JSONObject obj = new JSONObject(body);
