@@ -8,11 +8,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,7 +25,6 @@ import com.mig35.carousellayoutmanager.CarouselZoomPostLayoutListener;
 import com.mig35.carousellayoutmanager.CenterScrollListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import edu.sharif.weather.R;
 import edu.sharif.weather.adapters.WeatherRecyclerAdapter;
@@ -77,9 +74,7 @@ public class HomeFragment extends Fragment implements WeatherRecyclerAdapter.OnW
 
     public void getWeeklyForecastByCityName(String cityName) {
         final ProgressDialog[] dialog = new ProgressDialog[1];
-        getActivity().runOnUiThread(() -> {
-            dialog[0] = ProgressDialog.show(getActivity(), "Searching Weather Info", "Please wait...", true);
-        });
+        getActivity().runOnUiThread(() -> dialog[0] = ProgressDialog.show(getActivity(), "Searching Weather Info", "Please wait...", true));
 
         new Thread(() -> {
             mWeatherForecast = wc.getWeatherByLocationName(cityName);

@@ -1,9 +1,6 @@
 package edu.sharif.weather.controller;
 
 import android.app.Application;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -11,7 +8,6 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
