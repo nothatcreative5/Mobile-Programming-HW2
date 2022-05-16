@@ -173,9 +173,10 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             if (i == EditorInfo.IME_ACTION_DONE) {
                 timer.cancel();
-                HomeFragment hf = (HomeFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-                hf.getWeeklyForecastByCityName(cityEdit.getText().toString(), true);
                 simpleSearchDialogCompat.dismiss();
+                String cityName = cityEdit.getText().toString().trim();
+                HomeFragment hf = (HomeFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+                hf.getWeeklyForecastByCityName(cityName);
                 return true;
             }
             return false;
@@ -202,9 +203,9 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             simpleSearchDialogCompat.dismiss();
-                            String cityName = cityEdit.getText().toString();
+                            String cityName = cityEdit.getText().toString().trim();
                             HomeFragment hf = (HomeFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-                            hf.getWeeklyForecastByCityName(cityName, true);
+                            hf.getWeeklyForecastByCityName(cityName);
                         }
                     }, DELAY);
                 }
@@ -267,8 +268,8 @@ public class MainActivity extends AppCompatActivity {
         latitudeEditText.setGravity(Gravity.CENTER_HORIZONTAL);
         longitudeEditText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
         latitudeEditText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
-        layout.addView(longitudeEditText);
         layout.addView(latitudeEditText);
+        layout.addView(longitudeEditText);
         boolean[] searchButtonConditions = {false, false};
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this)
                 .setView(layout)

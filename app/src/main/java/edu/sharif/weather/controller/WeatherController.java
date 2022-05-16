@@ -34,12 +34,12 @@ public class WeatherController {
 
     private WeatherController() {
         int cacheSize = 10 * MB;
-        Cache cache = new Cache(new File(application.getCacheDir(),"weatherCache"), cacheSize);
+        Cache cache = new Cache(new File(application.getCacheDir(), "weatherCache"), cacheSize);
         client = new OkHttpClient.Builder().cache(cache).build();
     }
 
     public static WeatherController getControllerInstance() {
-        return (instance != null)? instance: new WeatherController();
+        return (instance != null) ? instance : new WeatherController();
     }
 
     public ArrayList<DailyWeather> getWeatherByGeoLocation(String lat, String lon) {
