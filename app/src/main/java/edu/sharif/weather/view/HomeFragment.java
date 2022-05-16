@@ -74,6 +74,8 @@ public class HomeFragment extends Fragment implements WeatherRecyclerAdapter.OnW
         recyclerView.setAdapter(adapter);
         if (mWeatherForecast.size() == 0)
             recyclerView.setVisibility(View.INVISIBLE);
+        else
+            getActivity().findViewById(R.id.nothing_to_show_layout).setVisibility(View.INVISIBLE);
     }
 
     public void getWeeklyForecastByCityName(String cityName) {
@@ -118,6 +120,7 @@ public class HomeFragment extends Fragment implements WeatherRecyclerAdapter.OnW
             adapter.notifyDataSetChanged();
             recyclerView.setVisibility(View.VISIBLE);
             recyclerView.scrollToPosition(0);
+            getActivity().findViewById(R.id.nothing_to_show_layout).setVisibility(View.INVISIBLE);
 
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("RecyclerViewState", new Gson().toJson(mWeatherForecast));
@@ -128,6 +131,7 @@ public class HomeFragment extends Fragment implements WeatherRecyclerAdapter.OnW
     public void onFailure(String message) {
         getActivity().runOnUiThread(() -> {
             recyclerView.setVisibility(View.INVISIBLE);
+            getActivity().findViewById(R.id.nothing_to_show_layout).setVisibility(View.VISIBLE);
             if (cm.getActiveNetworkInfo() != null) {
                 Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
             } else {
