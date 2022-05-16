@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String Shared_KEY = "edu.sharif.weather";
     private SharedPreferences sharedPreferences;
     private static final long DELAY = 5000;
-    private Timer timer =  new Timer();
+    private Timer timer = new Timer();
 
 
     WeatherController wc;
@@ -176,12 +176,12 @@ public class MainActivity extends AppCompatActivity {
         cityEdit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if(cityEdit.getText().toString().isEmpty())
+                if (cityEdit.getText().toString().isEmpty())
                     return false;
                 if (i == EditorInfo.IME_ACTION_DONE) {
                     timer.cancel();
                     HomeFragment hf = (HomeFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-                    hf.getWeeklyForecastByCityName(cityEdit.getText().toString(),true);
+                    hf.getWeeklyForecastByCityName(cityEdit.getText().toString(), true);
                     simpleSearchDialogCompat.dismiss();
                     return true;
                 }
@@ -204,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 timer.cancel();
-                if(!cityEdit.getText().toString().isEmpty()){
+                if (!cityEdit.getText().toString().trim().isEmpty()) {
                     timer.cancel();
                     timer = new Timer();
                     timer.schedule(new TimerTask() {
@@ -213,9 +213,9 @@ public class MainActivity extends AppCompatActivity {
                             simpleSearchDialogCompat.dismiss();
                             String cityName = cityEdit.getText().toString();
                             HomeFragment hf = (HomeFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-                            hf.getWeeklyForecastByCityName(cityName,true);
+                            hf.getWeeklyForecastByCityName(cityName, true);
                         }
-                    },DELAY);
+                    }, DELAY);
                 }
             }
         });
@@ -289,8 +289,6 @@ public class MainActivity extends AppCompatActivity {
                     double longitude = Double.parseDouble(longitudeEditText.getText().toString());
                     double latitude = Double.parseDouble(latitudeEditText.getText().toString());
                     timer.cancel();
-
-                    //API Handling
                     HomeFragment hf = (HomeFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
                     hf.getWeeklyForecastByCoordinates(Double.toString(longitude), Double.toString(latitude));
                 })
@@ -311,7 +309,7 @@ public class MainActivity extends AppCompatActivity {
                 timer.cancel();
                 searchButtonConditions[0] = !charSequence.toString().trim().equals("");
                 boolean enable = searchButtonConditions[0] && searchButtonConditions[1];
-                if(enable){
+                if (enable) {
                     timer = new Timer();
                     timer.schedule(new TimerTask() {
                         @Override
@@ -322,7 +320,7 @@ public class MainActivity extends AppCompatActivity {
                             HomeFragment hf = (HomeFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
                             hf.getWeeklyForecastByCoordinates(Double.toString(longitude), Double.toString(latitude));
                         }
-                    },DELAY);
+                    }, DELAY);
                 }
                 alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(enable);
             }
@@ -343,7 +341,7 @@ public class MainActivity extends AppCompatActivity {
                 timer.cancel();
                 searchButtonConditions[1] = !charSequence.toString().trim().equals("");
                 boolean enable = searchButtonConditions[0] && searchButtonConditions[1];
-                if(enable){
+                if (enable) {
                     timer = new Timer();
                     timer.schedule(new TimerTask() {
                         @Override
@@ -354,7 +352,7 @@ public class MainActivity extends AppCompatActivity {
                             HomeFragment hf = (HomeFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
                             hf.getWeeklyForecastByCoordinates(Double.toString(longitude), Double.toString(latitude));
                         }
-                    },DELAY);
+                    }, DELAY);
                 }
                 alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(enable);
             }
@@ -364,16 +362,5 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-    }
-
-    private void showMoreInfo() {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this)
-                .setTitle("More Info")
-                .setMessage("Wind speed is km/h")
-                .setPositiveButton("Close", (dialogInterface, i) -> {
-
-                });
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
     }
 }
